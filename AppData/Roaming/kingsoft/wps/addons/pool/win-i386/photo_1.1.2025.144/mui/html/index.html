@@ -1,0 +1,35 @@
+<!--cOdDOx4RK/+KkGu68pPL/1WpK8YaqMlMlnHygluK862tUmY2n7u3Qs2h3EOmf7z1yOpteyFjp9JXsK0OvLvo5zS6mV2wv9LudQvFT3EbcQym0fsHogkroA5YEwxEqp/Ca1OjvbFmlV/7Q9G2g2FrCqa3VV8/3K/OWS/PLJ5x0lDzor+xsKR11NYdLbqsIGTfrgpsCI4y1VLnxo8jVkRy1lFZScQK9UKHwOFRfeuAC/9frD7LhbbcwwrbwvCy31XQw/RbB2wysLtWa1wqvRYUFtNpMlJUM37+s2TMohzQjYf/+paJq/VArmLLwRHgXkK/RDm5CC0eu0P1dMw8WJcGJg==--><!DOCTYPE html><html lang=""><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+    <title>编辑器</title>
+    <!-- build info -->
+    <!-- build version: 1.0 -->
+    <!-- build date: 2024/7/12 15:36:27 -->
+    <!-- build branch: feature_photo_v12_intl -->
+    <!-- build commit: 570e04c8 -->
+    <!-- build commit date: 2024-07-12 15:30:48 +0800 -->
+  <link href="static/css/chunk-vendors.css" rel="stylesheet" integrity="sha256-PJblBZzLQADUN8Uuc8CKMP7n/QoV77coLO+5XOpT5zY= sha384-pCHgxRtuZWmi7Iae75jAkxtAlXCt8+BQBRRvjYALmnJC76MaMdw3/qRPQjtIF+GN" crossorigin="anonymous"><link href="static/css/app.css" rel="stylesheet" integrity="sha256-Op3DIkXIgGRp+ElOmQSYlXtFmjtXwu+T3yFl8AfIDyY= sha384-2rDSJ8jCTms5lUatDwstYY7+jiDuabExv/ZNQ5liEd1RkdH8kEiM32VNhgOMI7oj" crossorigin="anonymous"></head>
+  <!--触摸屏-->
+  <body style="touch-action: none;">
+    <noscript>
+      <strong>We're sorry but wps_photo_editor doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  <script src="static/js/chunk-vendors.js" integrity="sha256-VQOtkIbVi9OuOyg5yxpxkRX+vZT+DjqIxjLw5BTlb6U= sha384-282WLNK1liyvNs8tRwtnaVMwIzX2l3L0sh0t4h7l+W4XwL3G7uU4FT9Z7rufSDdj" crossorigin="anonymous"></script><script src="static/js/app.js" integrity="sha256-z5diDFtawrXqnkvrAoIguGpakpdeSlRn/3ZXbbiz/lQ= sha384-l9O249oqUaWv90cbXaxksZ+7QSboC2USC0hFQQoLXrMh0O775MYp0TqYeuVE5s0Y" crossorigin="anonymous"></script>
+  <script>
+    // 解决回退前进问题，部分鼠标功能键
+    history.pushState(null, null, document.URL)
+    window.addEventListener('popstate', function () {
+      history.pushState(null, null, document.URL)
+    })
+
+    // 触摸板
+    document.addEventListener('mousewheel', function(event) {
+      event.preventDefault()
+      event.stopPropagation()
+    }, { passive: false })
+  </script>
+
+</body></html>

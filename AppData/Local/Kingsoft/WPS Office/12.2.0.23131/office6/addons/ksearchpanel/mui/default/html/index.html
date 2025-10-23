@@ -1,0 +1,134 @@
+<!--G70KlgX/kfeLgeh/IXo+s3NWkw1METyBqKlCUmn1BvncOIcwnOzz8K6j21eScrrCqYaV9YN5mQVsJusunLoncSUB/rOHdYKB8mqA16jSCNBjok++Akky0AlwwjgY0Z6PmB+Clu1pDrJHhNELnnMmMFNQj6i5qtr8H7nx63M1CDPH1FxwNqqZVof+o+Ll+fmuMjDmYL6W83c/84V2IWCmmOzlc5pMXiSiFCsgQjWmet7eyf/Gs2a7jnYqCymmFObMVMPa9nlw45cmFff7V0YF9oVhip46ZYxioCZtRIMSLdCVqQsGjtlgvUE5vp8GPPBN06r+wazmnj/3HvHWPwjGjA==--><!doctype html><html lang="en"><head><meta charset="utf-8"/><title>WPS 大搜索</title><meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="dns-prefetch" href="https://uf-bigsearch.ksord.com"/><link rel="dns-prefetch" href="https://drive.wps.cn"/><link rel="dns-prefetch" href="https://yunbiz.wps.cn"/><link rel="dns-prefetch" href="https://clientweb.docer.wps.cn"/><link rel="dns-prefetch" href="https://gateway-clientweb.docer.wps.cn"/><link rel="dns-prefetch" href="https://js1.pcfg.cache.wpscdn.cn"/><link rel="dns-prefetch" href="https://img.qwps.cn"/><style id="cssVar"></style><script>try {
+		// 打点标记进来时机
+		performance.mark('mainjsLoadingStart');
+
+		const dwEventStringify = function (funcname, duration) {
+			return JSON.stringify({
+				callback: '',
+				method: 'common.report.dataWarehouseSend',
+				params: {
+					eventName: 'unifiedsearch_searchpanel_initapp_functimecallbackconsuming',
+					content: [
+						{
+							attribute: 'funcname',
+							value: funcname,
+						},
+						{
+							attribute: 'params',
+							value: '{}',
+						},
+						{
+							attribute: 'duration',
+							value: duration,
+						},
+						{
+							attribute: 'version',
+							value: '20250421',
+						},
+						{
+							attribute: 'product',
+							value: undefined,
+						},
+					],
+				},
+			})
+		}
+
+		const initStepEventStringify = function (stepname) {
+			return JSON.stringify({
+				callback: '',
+				method: 'searchpanel.panel.appendInitStep',
+				params: {
+					initStep: stepname,
+				},
+			})
+		}
+
+		// 进来前端页面上报埋点
+		const comingFontendReport = () => {
+			const comingEvent = dwEventStringify('searchpannel.search.comming.fontend', +new Date())
+			// 打点标记进来前端页面时机
+			window.cefQuery({ request: `fromJSAsynCall(${comingEvent})` })
+
+			// 记录进来日志
+			const initStepComing = initStepEventStringify('comingHtml')
+			window.cefQuery({ request: `fromJSAsynCall(${initStepComing})` })
+		}
+		comingFontendReport()
+
+		// 监听页面同步错误并上报
+		window.addEventListener('error', function(e) {
+			try {
+				const errorStr = JSON.stringify({
+					callback: '',
+					method: 'common.report.dataWarehouseSend',
+					params: {
+						eventName: 'unifiedsearch_render_error_byfrontend',
+						content: [
+							{
+								attribute: 'msg',
+								value: `js-error: ${e.message}`
+							},
+							{
+								attribute: 'version',
+								value: '20250421',
+							},
+							{
+								attribute: 'product',
+								value: undefined,
+							},
+						]
+					}
+				})
+
+				window.cefQuery({ request: `fromJSAsynCall(${errorStr})` })
+			} catch (e) {}
+		}, true)
+
+		// 监听页面异步错误并上报
+		window.addEventListener('unhandledrejection', function(e) {
+			try {
+				const errorStr = JSON.stringify({
+					callback: '',
+					method: 'common.report.dataWarehouseSend',
+					params: {
+						eventName: 'unifiedsearch_render_error_byfrontend',
+						content: [
+							{
+								attribute: 'msg',
+								value: `js-asyncerror: ${JSON.stringify(e.reason)}`
+							},
+							{
+								attribute: 'version',
+								value: '20250421',
+							},
+							{
+								attribute: 'product',
+								value: undefined,
+							},
+						]
+					}
+				})
+
+				window.cefQuery({ request: `fromJSAsynCall(${errorStr})` })
+			} catch (e) {}
+		}, true)
+
+		window.addEventListener('load', function() {
+			try {
+				performance.mark('pageOnloaded');
+				window.performance.measure('pageOnloaded', 'mainjsLoadingStart', 'pageOnloaded')
+				let duration = 0
+				performance.getEntriesByName('pageOnloaded').forEach((entry) => {
+					duration += entry.duration
+				})
+
+				// 上报页面触发 onload 事件埋点
+				const onloadEvent = dwEventStringify('searchpannel.search.page.onloaded', duration)
+				window.cefQuery({ request: `fromJSAsynCall(${onloadEvent})` })
+
+				const initStepLoaded = initStepEventStringify('pageloaded')
+				window.cefQuery({ request: `fromJSAsynCall(${initStepLoaded})` })
+			} catch (e) {}
+		}, true)
+	} catch (e) {}</script><script defer="defer" src="main.js" integrity="sha256-s3sot8Tl/FmtixajEW1AQxjCSw2bziAXU0cB7e7fVLg= sha384-ako2RnukaaOSSNncvSnzp0M9HxARV6umH4PCMaHJYvOcm6JQCsP7iqN9plEbqp+H" crossorigin="anonymous"></script></head><body><div id="root"></div><script src="./wps_perf_client_1.0.4.min.js" defer="defer" integrity="sha384-FNhUb9mxEh/wWqePEYJsSCDAtpdVQKQGrf1fSW/nImIRIt/LWcuSQGM0HfVRPa13"></script></body></html>

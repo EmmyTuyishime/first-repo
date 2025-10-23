@@ -1,0 +1,114 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>open - perl pragma to set default PerlIO layers for input and output</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr><td class="_podblock_" style="background-color: #cccccc; color: #000" valign="middle">
+<big><strong><span class="_podblock_">&nbsp;open - perl pragma to set default PerlIO layers for input and output</span></strong></big>
+</td></tr>
+</table>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#IMPLEMENTATION-DETAILS">IMPLEMENTATION DETAILS</a></li>
+  <li><a href="#SEE-ALSO">SEE ALSO</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>open - perl pragma to set default PerlIO layers for input and output</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<pre><code>    use open IN  =&gt; &#39;:crlf&#39;, OUT =&gt; &#39;:raw&#39;;
+    open my $in, &#39;&lt;&#39;, &#39;foo.txt&#39; or die &quot;open failed: $!&quot;;
+    my $line = &lt;$in&gt;; # CRLF translated
+    close $in;
+    open my $out, &#39;&gt;&#39;, &#39;bar.txt&#39; or die &quot;open failed: $!&quot;;
+    print $out $line; # no translation of bytes
+    close $out;
+
+    use open OUT =&gt; &#39;:encoding(UTF-8)&#39;;
+    use open IN  =&gt; &#39;:encoding(iso-8859-7)&#39;;
+
+    use open IO  =&gt; &#39;:locale&#39;;
+
+    # IO implicit only for :utf8, :encoding, :locale
+    use open &#39;:encoding(UTF-8)&#39;;
+    use open &#39;:encoding(iso-8859-7)&#39;;
+    use open &#39;:locale&#39;;
+
+    # with :std, also affect global standard handles
+    use open &#39;:std&#39;, &#39;:encoding(UTF-8)&#39;;
+    use open &#39;:std&#39;, OUT =&gt; &#39;:encoding(cp1252)&#39;;
+    use open &#39;:std&#39;, IO =&gt; &#39;:raw :encoding(UTF-16LE)&#39;;</code></pre>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>Full-fledged support for I/O layers is now implemented provided Perl is configured to use PerlIO as its IO system (which has been the default since 5.8, and the only supported configuration since 5.16).</p>
+
+<p>The <code>open</code> pragma serves as one of the interfaces to declare default &quot;layers&quot; (previously known as &quot;disciplines&quot;) for all I/O. Any open(), readpipe() (aka qx//) and similar operators found within the lexical scope of this pragma will use the declared defaults via the <a href="file:/c|/perl/html/pod/perlvar.html#OPEN"><code>${^OPEN}</code></a> variable.</p>
+
+<p>Layers are specified with a leading colon by convention. You can specify a stack of multiple layers as a space-separated string. See <a href="file:/c|/perl/html/lib/PerlIO.html">PerlIO</a> for more information on the available layers.</p>
+
+<p>With the <code>IN</code> subpragma you can declare the default layers of input streams, and with the <code>OUT</code> subpragma you can declare the default layers of output streams. With the <code>IO</code> subpragma (may be omitted for <code>:utf8</code>, <code>:locale</code>, or <code>:encoding</code>) you can control both input and output streams simultaneously.</p>
+
+<p>When open() is given an explicit list of layers (with the three-arg syntax), they override the list declared using this pragma. open() can also be given a single colon (:) for a layer name, to override this pragma and use the default as detailed in <a href="file:/c|/perl/html/lib/PerlIO.html#Defaults-and-how-to-override-them">&quot;Defaults and how to override them&quot; in PerlIO</a>.</p>
+
+<p>To translate from and to an arbitrary text encoding, use the <code>:encoding</code> layer. The matching of encoding names in <code>:encoding</code> is loose: case does not matter, and many encodings have several aliases. See <a href="file:/c|/perl/html/lib/Encode/Supported.html">Encode::Supported</a> for details and the list of supported locales.</p>
+
+<p>If you want to set your encoding layers based on your locale environment variables, you can use the <code>:locale</code> pseudo-layer. For example:</p>
+
+<pre><code>    $ENV{LANG} = &#39;ru_RU.KOI8-R&#39;;
+    # the :locale will probe the locale environment variables like LANG
+    use open OUT =&gt; &#39;:locale&#39;;
+    open(my $out, &#39;&gt;&#39;, &#39;koi8&#39;) or die &quot;open failed: $!&quot;;
+    print $out chr(0x430); # CYRILLIC SMALL LETTER A = KOI8-R 0xc1
+    close $out;
+    open(my $in, &#39;&lt;&#39;, &#39;koi8&#39;) or die &quot;open failed: $!&quot;;
+    printf &quot;%#x\n&quot;, ord(&lt;$in&gt;); # this should print 0xc1
+    close $in;</code></pre>
+
+<p>The logic of <code>:locale</code> is described in full in <a href="file:/c|/perl/html/lib/encoding.html#The-:locale-sub-pragma">&quot;The <code>:locale</code> sub-pragma&quot; in encoding</a>, but in short it is first trying nl_langinfo(CODESET) and then guessing from the LC_ALL and LANG locale environment variables. <code>:locale</code> also implicitly turns on <code>:std</code>.</p>
+
+<p><code>:std</code> is not a layer but an additional subpragma. When specified in the import list, it activates an additional functionality of pushing the layers selected for input/output handles to the standard filehandles (STDIN, STDOUT, STDERR). If the new layers and existing layer stack both end with an <code>:encoding</code> layer, the existing <code>:encoding</code> layer will also be removed.</p>
+
+<p>For example, if both input and out are chosen to be <code>:encoding(UTF-8)</code>, a <code>:std</code> will mean that STDIN, STDOUT, and STDERR will also have <code>:encoding(UTF-8)</code> set. On the other hand, if only output is chosen to be in <code>:encoding(koi8r)</code>, a <code>:std</code> will cause only the STDOUT and STDERR to be in <code>koi8r</code>.</p>
+
+<p>The effect of <code>:std</code> is not lexical as it modifies the layer stack of the global handles. If you wish to apply only this global effect and not the effect on handles that are opened in that scope, you can isolate the call to this pragma in its own lexical scope.</p>
+
+<pre><code>    { use open &#39;:std&#39;, IO =&gt; &#39;:encoding(UTF-8)&#39; }</code></pre>
+
+<h1 id="IMPLEMENTATION-DETAILS">IMPLEMENTATION DETAILS</h1>
+
+<p>There is a class method in <code>PerlIO::Layer</code> <code>find</code> which is implemented as XS code. It is called by <code>import</code> to validate the layers:</p>
+
+<pre><code>   PerlIO::Layer::-&gt;find(&quot;perlio&quot;)</code></pre>
+
+<p>The return value (if defined) is a Perl object, of class <code>PerlIO::Layer</code> which is created by the C code in <i>perlio.c</i>. As yet there is nothing useful you can do with the object at the perl level.</p>
+
+<h1 id="SEE-ALSO">SEE ALSO</h1>
+
+<p><a href="file:/c|/perl/html/pod/perlfunc.html#binmode">&quot;binmode&quot; in perlfunc</a>, <a href="file:/c|/perl/html/pod/perlfunc.html#open">&quot;open&quot; in perlfunc</a>, <a href="file:/c|/perl/html/pod/perlunicode.html">perlunicode</a>, <a href="file:/c|/perl/html/lib/PerlIO.html">PerlIO</a>, <a href="file:/c|/perl/html/lib/encoding.html">encoding</a></p>
+
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr><td class="_podblock_" style="background-color: #cccccc; color: #000" valign="middle">
+<big><strong><span class="_podblock_">&nbsp;open - perl pragma to set default PerlIO layers for input and output</span></strong></big>
+</td></tr>
+</table>
+
+</body>
+
+</html>
+
+

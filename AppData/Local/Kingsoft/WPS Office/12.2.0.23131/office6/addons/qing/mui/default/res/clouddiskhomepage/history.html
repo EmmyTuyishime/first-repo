@@ -1,0 +1,41 @@
+<!--mnsEmKqWmYcofr3KZV3NMR/po3WoCIdeYWmxbiEFmf4cAHfdCr4z7VUW7gu8GOAn9XI3Ri4zsPEifxaqA/jnmzgsI7G4fvbqIgunhQT2dfPSfnhcAbQ/UGKSWQAo6yOze9+JnFDikCmAJR0+lQjNycwgmSvVounizpT/3ZMgxMfSye+YW2g+Ju1D3Lxztt6QTi4NW1KKDdWmBF4IzRRR+EI+lLHrNO2DdHlZJ/7ZzakFVXXxaQ2yLozPcMM6uTfb16n0jmPZhQdIWSugzdNNt070Rwu2KEgEl7iz8epW0LemxId/7Nkc9cBOqh+1Qpsno09mBjEoQVTXWt0Zw2bx/g==--><!DOCTYPE html><html class=""><head><meta charset=utf-8><title>WPS 虚拟云盘历史版本</title><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><style>div.wps-message-tip{ display: none !important;}</style><script>if (!Function.prototype.bind) {
+      Function.prototype.bind = function (oThis) {
+        if (typeof this !== "function") {
+          // closest thing possible to the ECMAScript 5 internal IsCallable function
+          throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+        }
+
+        var aArgs = Array.prototype.slice.call(arguments, 1),
+          fToBind = this,
+          fNOP = function () {
+          },
+          fBound = function () {
+            return fToBind.apply(this instanceof fNOP && oThis
+                ? this
+                : oThis,
+              aArgs.concat(Array.prototype.slice.call(arguments)));
+          };
+
+        fNOP.prototype = this.prototype;
+        fBound.prototype = new fNOP();
+
+        return fBound;
+      };
+    }</script><link href=static/css/history.css rel=stylesheet></head><body><div id=app></div>
+	<script>
+
+	window.cefQuery({
+	  request: `fromJSAsynCall(${ JSON.stringify({ method: 'getLangPathXA', callback:'onGetLangPath'})})`
+	})
+	
+	function onGetLangPath(clientRet)
+	{
+		var head= document.getElementsByTagName('head')[0];
+		var script= document.createElement('script'); 
+		script.type= 'text/javascript'; 
+		script.src= clientRet.jsLangPath;
+		head.appendChild(script);
+	}
+
+	</script>
+	</body></html>

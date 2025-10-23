@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/test/front_end/components/side-icon.css"></link>
+</head>
+<body id="side-icon-body">
+    <div id="side-icon-wrapper">
+        <div id="side-icon">
+            <img draggable="false"/>
+        </div>
+        <div id="toggle-button">
+            <div id="summarize-button">
+                <div id="summarize-icon">
+                    <img draggable="false"/>
+                </div>
+            </div>
+            <div id="translate-button-wrapper">
+                <!--<div id="translate-filler"></div>-->
+                <div id="translate-button">
+                    <div id="translate-icon" >
+                        <img draggable="false"/>
+                    </div>
+                    <div id="translate-settings">
+                        <img draggable="false"/>
+                    </div>
+                </div>
+                <div id="translate-settings-popup">
+                    <h1 id="translate-settings-popup-heading">Translate settings</h1>
+                    <div id="translate-settings-popup-options">
+                        <div id="translate-settings-popup-option" class="source-language-popup-option">
+                            <div id="translate-settings-title"><p>Source language</p></div>
+                            <div id="translate-settings-button"><div class="language-selection">Auto Detect</div><svg id="caret-down" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M6.29289 8.79289C6.68342 8.40237 7.31658 8.40237 7.70711 8.79289L12 13.0858L16.2929 8.79289C16.6834 8.40237 17.3166 8.40237 17.7071 8.79289C18.0976 9.18342 18.0976 9.81658 17.7071 10.2071L12.7071 15.2071C12.3166 15.5976 11.6834 15.5976 11.2929 15.2071L6.29289 10.2071C5.90237 9.81658 5.90237 9.18342 6.29289 8.79289Z" fill="#000000"/>
+                                </svg></div>
+                        </div>
+                        <div id="translate-settings-popup-option" class="target-language-popup-option">
+                            <div id="translate-settings-title"><p>Target language</p></div>
+                            <div id="translate-settings-button"><div class="language-selection">English</div><svg id="caret-down" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M6.29289 8.79289C6.68342 8.40237 7.31658 8.40237 7.70711 8.79289L12 13.0858L16.2929 8.79289C16.6834 8.40237 17.3166 8.40237 17.7071 8.79289C18.0976 9.18342 18.0976 9.81658 17.7071 10.2071L12.7071 15.2071C12.3166 15.5976 11.6834 15.5976 11.2929 15.2071L6.29289 10.2071C5.90237 9.81658 5.90237 9.18342 6.29289 8.79289Z" fill="#000000"/>
+                                </svg></div>
+                        </div>
+                        <!--<div>
+                            <div>Auto translate</div>
+                            <div id="translate-settings-button"><div>English</div><div><img src="../assets/icons/caret-down.svg"/></div></div>
+                        </div>-->
+                    </div>
+                </div>
+                <div id="translate-languages-wrapper" class="source-language-wrapper">
+                    <div id="translate-languages-search-bar"><svg id="search-icon" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16.6725 16.6412L21 21M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg><input class='source-input' placeholder="Search"></div>
+                    <div id="translate-languages-list">
+                        <div><p>Auto Detect</p></div>
+                        <div><p>English (US)</p></div>
+                        <div><p>Afrikaans</p></div>
+                        <div><p>Amharic</p></div>
+                        <div><p>Arabic</p></div>
+                        <div><p>Basque</p></div>
+                        <div><p>Bengali</p></div>
+                        <div><p>Bulgarian</p></div>
+                        <div><p>Catalan</p></div>
+                        <div><p>Cherokee</p></div>
+                        <div><p>Chinese</p></div>
+                        <div><p>Croatian</p></div>
+                        <div><p>Czech</p></div>
+                        <div><p>Danish</p></div>
+                        <div><p>Dutch</p></div>
+                        <div><p>English (UK)</p></div>
+                        <div><p>Estonian</p></div>
+                        <div><p>Filipino</p></div>
+                        <div><p>Finnish</p></div>
+                        <div><p>French</p></div>
+                        <div><p>German</p></div>
+                        <div><p>Greek</p></div>
+                        <div><p>Gujarati</p></div>
+                        <div><p>Hausa</p></div>
+                        <div><p>Hebrew</p></div>
+                        <div><p>Hindi</p></div>
+                        <div><p>Hungarian</p></div>
+                        <div><p>Icelandic</p></div>
+                        <div><p>Igbo</p></div>
+                        <div><p>Indonesian</p></div>
+                        <div><p>Italian</p></div>
+                        <div><p>Japanese</p></div>
+                        <div><p>Kannada</p></div>
+                        <div><p>Korean</p></div>
+                        <div><p>Latvian</p></div>
+                        <div><p>Lithuanian</p></div>
+                        <div><p>Malagasy</p></div>
+                        <div><p>Malay</p></div>
+                        <div><p>Malayalam</p></div>
+                        <div><p>Marathi</p></div>
+                        <div><p>Norwegian</p></div>
+                        <div><p>Polish</p></div>
+                        <div><p>Portuguese</p></div>
+                        <div><p>Romanian</p></div>
+                        <div><p>Russian</p></div>
+                        <div><p>Serbian</p></div>
+                        <div><p>Sesotho</p></div>
+                        <div><p>Shona</p></div>
+                        <div><p>Slovak</p></div>
+                        <div><p>Slovenian</p></div>
+                        <div><p>Somali</p></div>
+                        <div><p>Spanish</p></div>
+                        <div><p>Swahili</p></div>
+                        <div><p>Swedish</p></div>
+                        <div><p>Tamil</p></div>
+                        <div><p>Telugu</p></div>
+                        <div><p>Thai</p></div>
+                        <div><p>Turkish</p></div>
+                        <div><p>Ukrainian</p></div>
+                        <div><p>Urdu</p></div>
+                        <div><p>Vietnamese</p></div>
+                        <div><p>Welsh</p></div>
+                        <div><p>Xhosa</p></div>
+                        <div><p>Yoruba</p></div>
+                        <div><p>Zulu</p></div>
+                    </div>
+                </div>
+            </div>
+            <div id="translate-languages-wrapper" class="target-language-wrapper">
+                <div id="translate-languages-search-bar"><svg id="search-icon" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.6725 16.6412L21 21M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg><input class='target-input' placeholder="Search"></div>
+                <div id="translate-languages-list">
+                    <div><p>English (US)</p></div>
+                    <div><p>Afrikaans</p></div>
+                    <div><p>Amharic</p></div>
+                    <div><p>Arabic</p></div>
+                    <div><p>Basque</p></div>
+                    <div><p>Bengali</p></div>
+                    <div><p>Bulgarian</p></div>
+                    <div><p>Catalan</p></div>
+                    <div><p>Cherokee</p></div>
+                    <div><p>Chinese</p></div>
+                    <!--<div><p>Chinese (Traditional)</p></div>-->
+                    <div><p>Croatian</p></div>
+                    <div><p>Czech</p></div>
+                    <div><p>Danish</p></div>
+                    <div><p>Dutch</p></div>
+                    <div><p>English (UK)</p></div>
+                    <div><p>Estonian</p></div>
+                    <div><p>Filipino</p></div>
+                    <div><p>Finnish</p></div>
+                    <div><p>French</p></div>
+                    <div><p>German</p></div>
+                    <div><p>Greek</p></div>
+                    <div><p>Gujarati</p></div>
+                    <div><p>Hausa</p></div>
+                    <div><p>Hebrew</p></div>
+                    <div><p>Hindi</p></div>
+                    <div><p>Hungarian</p></div>
+                    <div><p>Icelandic</p></div>
+                    <div><p>Igbo</p></div>
+                    <div><p>Indonesian</p></div>
+                    <div><p>Italian</p></div>
+                    <div><p>Japanese</p></div>
+                    <div><p>Kannada</p></div>
+                    <div><p>Korean</p></div>
+                    <div><p>Latvian</p></div>
+                    <div><p>Lithuanian</p></div>
+                    <div><p>Malagasy</p></div>
+                    <div><p>Malay</p></div>
+                    <div><p>Malayalam</p></div>
+                    <div><p>Marathi</p></div>
+                    <div><p>Norwegian</p></div>
+                    <div><p>Polish</p></div>
+                    <div><p>Portuguese</p></div>
+                    <div><p>Romanian</p></div>
+                    <div><p>Russian</p></div>
+                    <div><p>Serbian</p></div>
+                    <div><p>Sesotho</p></div>
+                    <div><p>Shona</p></div>
+                    <div><p>Slovak</p></div>
+                    <div><p>Slovenian</p></div>
+                    <div><p>Somali</p></div>
+                    <div><p>Spanish</p></div>
+                    <div><p>Swahili</p></div>
+                    <div><p>Swedish</p></div>
+                    <div><p>Tamil</p></div>
+                    <div><p>Telugu</p></div>
+                    <div><p>Thai</p></div>
+                    <div><p>Turkish</p></div>
+                    <div><p>Ukrainian</p></div>
+                    <div><p>Urdu</p></div>
+                    <div><p>Vietnamese</p></div>
+                    <div><p>Welsh</p></div>
+                    <div><p>Xhosa</p></div>
+                    <div><p>Yoruba</p></div>
+                    <div><p>Zulu</p></div>
+                </div>
+            </div>
+        </div>
+        <div id="close-button-wrapper">
+            <div id="close-button"><!--FIX THIS-->
+                <img id="close-icon" draggable="false"/>
+            </div>
+        </div>
+        <div id="close-options">
+            <div class="disable-site">
+                <p>Disable for this site</p>
+            </div>
+            <div class="disable-global">
+                <p>Disable globally</p>
+            </div>
+        </div>
+        <div id="message-wrapper">
+            <div id="message"><div id="message-header-wrapper"><img><h1 id="message-header"></h1></div><div id="message-paragraph-wrapper"><img><p id="message-paragraph"></p></div></div>
+        </div>
+    </div>
+</body>
+<script src="/test/front_end/components/sidegene.js"></script>
+</html>

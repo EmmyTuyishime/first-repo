@@ -1,0 +1,107 @@
+<html lang="en">
+<!-- Copyright (c) 2012, 2018, Oracle and/or its affiliates. 
+All rights reserved.-->
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <style>
+    html {visibility:hidden;}
+  </style>
+  <script>
+	if (self===top) {
+	  document.documentElement.style.visibility='visible';
+	} else {
+	  top.location=self.location;
+	}
+  </script>
+
+  <script language='javascript'>
+    var emMode = "flex_ide";
+    var flexIdeSwf = "${swf}";
+
+ 
+    // function to get url parameter of the parent window by name 
+    function get_url_param(pname)
+    {
+      pname = pname.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+      var regex = new RegExp( "[\\?&]"+pname+"=([^&#]*)" );
+      var results = regex.exec( window.location.href );
+      var ret = ( results == null )? "" : results[1];
+      return ret;
+    }
+    
+    var emModeParamValue = get_url_param('emMode');
+    if (emModeParamValue != null && emModeParamValue != "")
+      emMode = emModeParamValue;
+
+    // caching number used for em express connected/online mode
+    var cachingNumberStr = "";
+    if (emMode == "em_express")
+    { 
+      var caching_number=EMX_CACHING_NUMBER;
+      cachingNumberStr = "_c" + caching_number;
+    }
+  </script>
+  
+  <link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon" />
+
+  <!-- menu stylesheet -->
+  <link id="shellStyleSheet" rel="stylesheet" type="text/css" href="shell.css" />
+
+  <!--  BEGIN Browser History required section -->
+  <link rel="stylesheet" type="text/css" href="history/history.css" />
+  <!--  END Browser History required section -->
+
+  <title>EM Express</title>
+
+  <!-- BEGIN Adobe flex javascript -->
+  <script src="AC_OETags.js" type="text/javascript" language="javascript"></script>
+  <!-- END Adobe flex javascript -->
+
+  <!-- BEGIN EM Express menu javascript -->
+  <script language="javascript" type="text/javascript" src="scripts/menu.js"></script>
+  <!-- END EM Express menu javascript -->
+
+  <!-- BEGIN EM Express shell javascript -->
+  <script language="javascript" type="text/javascript" src="scripts/shell.js"></script>
+  <!-- END EM Express shell javascript -->
+
+  <!-- BEGIN EM Express active report feature list javascript -->
+  <script language="javascript" type="text/javascript" src="scripts/reportMap.js"></script>
+  <!-- END EM Express active report feature list javascript -->
+
+  <!--  BEGIN Browser History required section -->
+  <script id="historyScript" src="history/history.js" language="javascript"></script>
+  <!--  END Browser History required section -->
+
+  <style>
+    body { margin: 0px; overflow:hidden }
+  </style>
+
+  <script language="JavaScript" type="text/javascript">
+    <!--
+    // -----------------------------------------------------------------------------
+    // Globals
+    // Major version of Flash required
+    var requiredMajorVersion = 10;
+    // Minor version of Flash required
+    var requiredMinorVersion = 0;
+    // Minor version of Flash required
+    var requiredRevision = 124;
+    // -----------------------------------------------------------------------------
+    // -->
+  </script>
+
+  <!-- BEGIN close open menus when clicking outside the menu -->
+  <script type="text/javascript">
+    document.onclick=closeMenu;
+    window.onresize=sizeFlashapp;
+  </script>
+  <!-- END close open menus when clicking outside the menu -->
+
+ </head>
+
+ <body scroll="no" onload="loadCompleted();">
+ </body>
+
+</html>

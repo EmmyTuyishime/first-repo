@@ -1,0 +1,1030 @@
+<!--
+ Copyright (c) 2021, Oracle and/or its affiliates. 
+-->
+<html>
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <meta content="Oracle" name="Author">
+        <title>CVU Report </title>
+    </head>
+
+    <body onload="dataLoad();" class="color-theme" id="bd">
+        <div id="myBtns" class="myBtns">
+            <button type="button" onclick="topFunction()" id="myBtn" title="Go to top" class="bdark">&#9650;</button>
+        </div>
+        <div id="modal" class="modal" >
+          <div class="content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="details-content"></div>
+          </div>
+        </div>
+        <div class="resp-fluid">
+            <div class="gridrow">
+                <div class="bdark" id="sidebar-collapsed" style="width:100%">
+                    <div class="stick-top">
+                        <nav class="resp">
+                            <a class="navtitle" href="#" id="nav-cvu-report"></a>
+                            <ul class="navlist">
+                                <li class="navi active">
+                                    <a class="navl" href="#" id="nav-home"></span></a>
+                                </li>
+                                <li class="navi">
+                                    <a class="navl" href="#sidebar-collapsed-bg" id="nav-summary"></a>
+                                </li>
+                                <li class="navi">
+                                    <a class="navl" href="#results-title" id="nav-results"></a>
+                                </li>
+                                <li class="navi">
+                                    <a class="navl" href="#check-stats-title" id="nav-stats"></a>
+                                </li>
+                            </ul>
+                            <ul class="navlist myBtns">
+                                <li>
+                                    <button id="print" type="button" onclick="printFunction();" class="bdark"><span class="print-text">PRINT<span></button>
+                                </li>
+                                <li>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="bdark" id="sidebar-collapsed-bg" style="width:100%">
+                    <div class="stick-top">
+                        <a class="navtitle" href="#" id="nav-cvu-report-hidden"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="gridrow">
+                <div class="column column12" id="mainbar">
+                    <h4 id="summary-title" class="center"></h4>
+                    <div id="op-details" class="resp details">
+                        <table id="op-details-table" class="table" border="1">
+                        </table>
+                    </div>
+                    <h4 id="results-title" class="center"></h4>
+                    <div id="checks-summary" class="resp">
+                        <div class="buttons resp">
+                            <button type="button" class="button-blue" onclick="displayChecks(10)" id="total"></button>
+                            <button type="button" class="button-green" onclick="displayChecks(2)" id="successful"></button>
+                            <button type="button" class="button-red" onclick="displayChecks(0)" id="failed"></button>
+                            <button type="button" class="button-yellow" onclick="displayChecks(1)" id="warning"></button>
+                        </div>
+                        <div id="results" class="resp">
+                            <table id="results-table" class="table" border="1">
+                                <thead class="tdark">
+                                    <tr>
+                                        <th class="hidden-elem"> </th>
+                                        <th id="checks-header" class="checks"> </th>
+                                        <th id="results-header" class="check-results"> </th>
+                                        <th id="desc-header" class="check-desc"> </th>
+                                        <th id="desc-details" class="check-details" onclick="expandCollapse();"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <h4 id="check-stats-title" class="center"></h4>
+                        <h5 id="time-consuming"></h5>
+                        <div id="stats" class="resp">
+                            <table id="stats-table" class="table" border="1">
+                                <thead class="tdark">
+                                    <tr>
+                                        <th class="checks" id="checks-stats-header"> </th>
+                                        <th id="checks-stats-time"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="loader" class="loader" style="text-align:center"></div>
+            </div>
+        </div>
+    </body> <!-- Stylesheet code -->
+    <style>
+        /* css for smaller screens */
+        @media (min-width: 576px) {
+            .resp {
+                max-width: 540px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .resp {
+                max-width: 720px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .resp {
+                max-width: 960px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .resp {
+                max-width: 1140px;
+            }
+        }
+
+        body {
+            font-family: verdana;
+            font-size: 14px;
+            margin: 0px;
+        }
+
+        /* Navigation */
+
+        .stick a,
+        .stick-top a {
+            text-decoration: none;
+        }
+
+        .navlist.myBtns {
+            float: right;
+            margin-top: 0px;
+        }
+
+        .navlist.myBtns button {
+            font-size: 1.5rem;
+        }
+
+        .navtitle {
+            color: white;
+            font-weight: 500;
+            font-size: 1.5rem;
+            display: inline-flex;
+            padding: 10px;
+            padding-bottom: 20px;
+        }
+
+        .navlist {
+            display: inline-flex;
+            flex-wrap: wrap;
+            padding-left: 0;
+            margin-bottom: 0;
+            list-style: none;
+            vertical-align: middle;
+            padding-top: 0px;
+            margin-top: 0px;
+        }
+
+        .navlist .navi {
+            list-style: none;
+            font-weight: 400;
+            margin-bottom: 5px;
+            font-size: 16px;
+            display: list-item;
+            padding-left: 20px;
+        }
+
+        .navlist .navi .navl {
+            list-style: none;
+            font-weight: 400;
+            margin-bottom: 5px;
+            font-size: 16px;
+            float: left;
+        }
+
+        .navtitle:hover {
+            color: white;
+        }
+
+        .navi,
+        .navi a {
+            list-style: none;
+            font-weight: 400;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .navi a:hover {
+            color: white;
+        }
+
+        .navl,
+        .stick hr {
+            color: rgba(255, 255, 255, .5);
+        }
+
+        .navl.active {
+            color: white;
+        }
+
+
+        /* Buttons */
+
+        button {
+            display: inline-block;
+            font-weight: 400;
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid transparent;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+            cursor: pointer;
+        }
+
+        .buttons {
+            width: 100%;
+            position: relative;
+            display: inline-flex;
+            vertical-align: middle;
+        }
+
+        .buttons button {
+            width: 100%;
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            padding: .5rem 1rem;
+            font-size: 1.25rem;
+            line-height: 1.5;
+            color: white;
+            border: 0px;
+            font-weight: 400;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.4), 0 6px 20px 0 rgba(0,0,0,0.4);
+            border-radius:12px;
+
+        }
+
+        .buttons button span {
+            color: black;
+            background-color: white;
+            font-size: 1rem;
+            text-align: center;
+            padding: 0.25rem;
+            top: -1px;
+            border-radius: 5px;
+            font-weight: 700;
+            position: relative;
+            min-width: 30px;
+            margin-left:5px;
+        }
+
+        .button-green {
+            background-color: #28a746;
+            border-color: #28a746;
+        }
+
+        .button-green:hover {
+            background-color: #218838;
+        }
+
+        .button-red {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+        .button-red:hover {
+            background-color: #C82332;
+        }
+
+        .button-blue {
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .button-blue:hover {
+            background-color: #0268D9;
+        }
+
+        .button-yellow {
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+            color: black !important;
+            background-color: #ffc105;
+            border-color: #ffc105;
+        }
+
+        .button-yellow:hover {
+            background-color: #DFA826;
+        }
+
+        #myBtns {
+            position: fixed;
+            /* Fixed/sticky position */
+            bottom: 20px;
+            /* Place the button at the bottom of the page */
+            right: 30px;
+            /* Place the button 30px from the right */
+            z-index: 99;
+            /* Make sure it does not overlap */
+        }
+
+        .myBtns button {
+            width: 40px;
+            margin-top: 10px;
+            color: white;
+            font-size: 16px;
+            border-radius: 20px;
+        }
+
+        h4 {
+            font-size: 1.5rem;
+        }
+
+        h5 {
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin-bottom: .5rem;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        h2,
+        h3,
+        h4,
+        h5 {
+            color: #0D47A1;
+            margin-top: 20px;
+        }
+
+
+        /* Columns */
+
+        .column2 {
+            flex: 0 0 16.666667%;
+            max-width: 16.666667%;
+            padding: 0px;
+        }
+
+        .column10 {
+            flex: 0 0 83.333333%;
+            max-width: 83.333333%;
+        }
+
+        .column12 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+
+        .column,
+        .column2,
+        .column10,
+        .column12 {
+            position: relative;
+            width: 100%;
+        }
+
+        .gridrow {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+
+        .resp-fluid {
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .resp {
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        #sidebar-collapsed {
+            position: fixed;
+            z-index: 99;
+        }
+
+
+        /* Table */
+
+        table {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .table .tdark th {
+            color: #fff;
+            background-color: #343a41;
+            border-color: #454d56;
+        }
+
+        .table {
+            margin-left: auto;
+            margin-right: auto;
+            width: auto;
+            border: 1px solid #343a41;
+            border-collapse: collapse;
+        }
+
+        .table .table-left {
+            float: left;
+        }
+
+        .table td,
+        .table th {
+            padding: .6rem;
+
+        }
+
+        .table-primary,
+        .table-primary>td,
+        .table-primary>th {
+            background-color: #d6e9ff;
+        }
+
+        /* Misc */
+        .checks {
+            word-wrap: break-word;
+            max-width: 200px;
+        }
+
+        .PASSED {
+            color: #155724;
+        }
+
+        .FAILED {
+            color: #721c24;
+        }
+
+        .WARNING {
+            color: #856404;
+        }
+
+        .node-results {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+
+        a {
+            cursor: pointer;
+        }
+
+        .hidden-elem,
+        .hidden {
+            display: none;
+        }
+
+        .status,
+        .details1 {
+            text-decoration: underline;
+            font-weight: bolder;
+        }
+
+        .details1 {
+            color: #007bff;
+        }
+
+        #desc-details {
+            cursor: pointer;
+        }
+
+        .stick ul {
+            margin-bottom: 20px;
+        }
+
+        .stick {
+            position: fixed;
+        }
+
+        .stick-top .nav {
+            padding-top: 10px;
+        }
+
+        .bdark {
+            background-color: #343a41 !important;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .count {
+            font-size: 28px;
+        }
+
+        :target::before {
+            content: "";
+            display: block;
+            height: 90px;
+            /* fixed header height*/
+            margin: -90px 0 0;
+            /* negative fixed header height */
+        }
+
+        #checkboxes{
+            text-align: center;
+            font-size: 1.1rem;
+            margin-top:10px;
+            margin-bottom:10px;
+        }
+
+        #checkboxes label{
+            margin-left:20px;
+        }
+
+          /* The Modal (background) */
+        .modal {
+          display: none; /* Hidden by default */
+          position: fixed; /* Stay in place */
+          z-index: 1; /* Sit on top */
+          left: 0;
+          top: 0;
+          width: 100%; /* Full width */
+          height: 100%; /* Full height */
+          overflow: auto; /* Enable scroll if needed */
+          background-color: rgb(0,0,0); /* Fallback color */
+          background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .content {
+          background-color: #fefefe;
+          margin: 10% auto; /* 15% from the top and centered */
+          padding: 20px;
+          border: 1px solid #888;
+          width: 90%; /* Could be more or less, depending on screen size */
+        }
+
+        /* The Close Button */
+        .close {
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+          color: black;
+          text-decoration: none;
+          cursor: pointer;
+        }
+
+        .expand-nodewise{
+          cursor: pointer;
+          color:dodgerblue;
+          text-decoration: underline;
+          float:right;
+        }
+
+        .node-results table {
+          width:100%;
+        }
+
+        #details-content .expand-nodewise{
+          display:none;
+        }
+        .print-text{
+            font-size : 14px;
+        }
+
+        .hoverExpand {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          max-width: 200px;
+          cursor: pointer;
+         }
+
+         .hoverExpand:hover {
+           white-space: normal;
+           cursor: normal;
+        }
+
+        .loader{
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #3498db;
+            border-radius:36px;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+            margin:auto;
+        }
+
+        .block{
+            font-weight: bold;
+        }
+
+        @keyframes spin{
+            0% {transform: rotate(0deg);}
+            100% {transform: rotate(360deg);}
+        }
+
+    </style> <!-- Javascript code -->
+    <script>
+        /*Keeps the current status of the detailed/concise report */
+        var lastOperation = "concise";
+        var totalCvuChecks = 0;
+        var succCvuChecks = 0;
+        var failedCvuChecks = 0;
+        var warningCvuChecks = 0;
+
+        var totalOraChecks = 0;
+        var succOraChecks = 0;
+        var failedOraChecks = 0;
+        var warningOraChecks = 0;
+
+        /* When the user clicks on the button, scroll to the top of the document*/
+        function topFunction() {
+            document.body.scrollTop = 0; 
+            document.documentElement.scrollTop = 0;
+        }
+
+        /* Animate the the number of failures, succeeded checks and total checks*/
+        function animateValue(id, start, end) {
+            var range = end - start;
+            var current = start;
+            var increment = end > start ? 1 : -1;
+            var obj = document.getElementById(id);
+
+            if(range < 5){
+                obj.innerHTML = end;
+            }else{
+                var stepTime = Math.abs(Math.floor(2000 / range));
+                var timer = setInterval(function() {
+                    current += increment;
+                    obj.innerHTML = current;
+                    if (current == end) {
+                       clearInterval(timer);
+                 }
+                }, stepTime);
+            }
+        }
+
+        /* Util function to update class for elements */
+        function updateClass(className, newClass) {
+            var selects = document.querySelectorAll(className);
+            var length = selects.length;
+            for (var i = 0; i < length; i++) {
+                selects[i].className = newClass;
+            }
+        }
+
+        /* Util method to filter the results by their status */
+        function displayChecks(status) {
+            if (status == 0) {
+                updateClass(".status2", "status2 hidden");
+                updateClass(".status0.hidden", "status0")
+            } else if (status == 2) {
+                updateClass(".status0", "status0 hidden");
+                updateClass(".status1", "status1 hidden");
+                updateClass(".status2", "status2");
+            } else  if (status == 1){
+                updateClass(".status0", "status0 hidden");
+                updateClass(".status2", "status2 hidden");
+                updateClass(".status1", "status1");
+            }
+            else{
+                updateClass(".status0", "status0");
+                updateClass(".status1", "status1");
+                updateClass(".status2", "status2");
+            }
+
+            if (lastOperation == "concise")
+                collapseAll();
+            else
+                expandAll();
+
+        }
+
+        /* Update innerHTML of an element */
+        function updateContent(id, content) {
+            document.getElementById(id).innerHTML = content;
+        }
+
+        /* open the expanded details Content */
+        function openModal(element){
+          updateContent("details-content",document.getElementById(element).innerHTML);
+          document.getElementById("modal").style.display = "block";
+        }
+        /* close the expanded details Content */
+        function closeModal(){
+          updateContent("details-content","");
+          document.getElementById("modal").style.display = "none";
+        }
+
+        /* Add the name value table*/
+        function addNameValueTable(id) {
+          var tableElement = document.createElement('table');
+          tableElement.innerHTML = "<thead class='tdark'><tr><th>" + metadata["name"] + "</th><th>" + metadata["value"] + "</th></tr></thead>";
+          tableElement.id = "kv-table" + id;
+          tableElement.className = "table";
+          tableElement.border = "1";
+          return tableElement;
+        }
+
+        /* Main data load function. Updates the page with the data in the json format */
+        function dataLoad() {
+
+            updateContent("summary-title", metadata["summaryTitle"]);
+            updateContent("results-title", metadata["resultsTitle"]);
+            updateContent("checks-header", metadata["checksHeader"]);;
+            updateContent("checks-stats-header", metadata["checksHeader"]);
+            updateContent("results-header", metadata["resultsHeader"]);
+            updateContent("desc-header", metadata["descHeader"]);
+            updateContent("nav-summary", metadata["navSummary"]);
+            updateContent("nav-cvu-report", metadata["navReport"]);
+            updateContent("nav-cvu-report-hidden", metadata["navReport"]);
+            updateContent("nav-home", metadata["navHome"]);
+            updateContent("nav-results", metadata["navResults"]);
+            updateContent("nav-stats", metadata["navStats"]);
+            updateContent("check-stats-title", metadata["navStats"]);
+            updateContent("total", metadata["total"] + '<span id="count1">0</span>');
+            updateContent("successful", metadata["PASSED"] + '<span id="count2">0</span>');
+            updateContent("failed", metadata["FAILED"] + '<span id="count3">0</span>');
+            updateContent("warning", metadata["WARNING"] + '<span id="count4">0</span>');
+            updateContent("desc-details", metadata["expand"] + " [+]");
+            updateContent("checks-stats-time", metadata["statsTimeHeader"]);
+            updateContent("time-consuming", metadata["timeConsumingChecks"]);
+
+
+            var data = jsonData[0];
+            var details = data['detailedOperationSummary'];
+            var detailKeys = Object.keys(metadata);
+
+            for (var i = 0; i < detailKeys.length; i++) {
+                if (details[detailKeys[i]]) {
+                    var tableRowElement = document.createElement('tr');
+                    if (detailKeys[i] === "timeStamp") {
+                        var date = new Date(details[detailKeys[i]]);
+                        tableRowElement.innerHTML = "<td class='block'><b>" + metadata[detailKeys[i]] + "</b></td><td>" + date.toLocaleString() + "</td>";
+                    } else {
+                        tableRowElement.innerHTML = "<td class='block'><b>" + metadata[detailKeys[i]] + "</b></td><td>" + details[detailKeys[i]] + "</td>";
+                    }
+                    document.getElementById('op-details-table').appendChild(tableRowElement);
+                }
+            }
+
+            var checksData = data['checks'];
+            for (var i = 0; i < checksData.length; i++) {
+
+                if (checksData[i]["cvucheck"] == true) {
+                    totalCvuChecks++;
+                    loadRow(checksData[i], "results-table", i);
+                } else {
+                    var childTasks = checksData[i]["createdChecks"];
+
+                    var tableRowElement = document.createElement('tr');
+                    var tableRow = "<td class='checks'>" + checksData[i]["elementName"] + "</td><td>" + checksData[i]["elapsedTime"] / 1000 + "</td>";
+                    tableRowElement.innerHTML = tableRow;
+                    document.getElementById("stats-table").appendChild(tableRowElement);
+
+                    for (var j = 0; j < childTasks.length; j++) {
+                        totalOraChecks++;
+                        loadRow(childTasks[j], "results-table", i + j);
+                    }
+                }
+            }
+            sort(0);
+
+            animateValue("count1", 0, totalCvuChecks + totalOraChecks);
+            animateValue("count2", 0, succCvuChecks + succOraChecks);
+            animateValue("count3", 0, failedCvuChecks + failedOraChecks);
+            animateValue("count4", 0, warningCvuChecks + warningOraChecks);
+
+
+        }
+
+        /* function to update the results of a check into the table row */
+        function loadRow(checkData, tableId, i) {
+            var tableRowElement = document.createElement('tr');
+            var checkId = "check" + i;
+            var status = checkData["resultSet"]["overallStatus"];
+            status = mapStatus(status);
+
+            var tableRow = "<td class='hidden-elem'>" + getStatusWeight(status) + "</td><td class='checks'>" + checkData["elementName"] + "</td><td style='cursor:pointer;' class='status " + status + "' onclick=\"toggleElem('" + checkId + "');\">" + status + "</td><td>" + checkData["description"];
+            tableRow = tableRow + "<div class='node-results' id='" + checkId + "'> <a class='expand-nodewise' onclick='openModal(\""+ checkId + "\")'>"+ metadata["wideView"]+"</a>";
+            if (checkData["moreDetails"] != null) {
+                tableRow = tableRow + "<div>" + checkData["moreDetails"].replace(/<[\/]*pre[^>]*>/g, '') + "</div>";
+            }
+
+            var resultSet = checkData["resultSet"];
+
+
+            var references = "";
+           
+            if(checkData['references']){
+                for (k = 0; k < checkData['references'].length; k++) {
+                    references = references + "<p><a href='"+checkData["references"][k]+"'>" + checkData["references"][k] + " </a> </p>";
+                }
+            }
+
+            if (references != "") {
+                references = "<p class='block'>" + metadata["references"] + ": </p>" + references;
+            }
+ 
+            var globalErrors = "";
+            for (k = 0; k < resultSet['errors'].length; k++) {
+                if (resultSet['errors'][k]['errorMessage'])
+                    globalErrors = globalErrors + "<p>" + resultSet['errors'][k]['errorMessage'] + "</p>";
+            }
+            globalErrors = globalErrors.replace(/(?:\r\n|\r|\n)/g, '<br>');
+            if (globalErrors != "") {
+                globalErrors = "<p class='block'>Global Errors:</p>" + globalErrors;
+            }
+            var nodeResults = "<p class='block'>Node-wise details:</p><table class='table table-left'><thead class='tdark'><tr>" + "<th>Node</th><th>Status</th><th>Details</th><tr></thead>";
+
+            for (var j = 0; j < resultSet['nodeResults'].length; j++) {
+                var errorMessage = "";
+                var detailsTable = "";
+                for (k = 0; k < resultSet['nodeResults'][j]['errors'].length; k++) {
+                    if (resultSet['nodeResults'][j]['errors'][k]['errorMessage']) errorMessage = errorMessage + "<p>" + resultSet['nodeResults'][j]['errors'][k]['errorMessage'] + "</p>";
+                }
+
+                var nvtable = addNameValueTable("nodewiseCollection"+resultSet["nodeResults"][j]["node"]);
+                var includeDetails = false;
+            
+                for (k = 0; k < resultSet["nodeResults"][j]["collection"].length; k++) {
+                  var nodeWiseCollection = resultSet["nodeResults"][j]["collection"][k];
+                  if (nodeWiseCollection["value"]){
+                    includeDetails = true;
+                    var tableR = document.createElement("tr");
+                    var val = nodeWiseCollection["value"];
+                    var collapsedVal = val;
+                    if (val && val.length > 20) {
+                        collapsedVal = '<p class="hoverExpand">' + val + "</p>";
+                    }
+                    tableR.innerHTML = "<td>" + nodeWiseCollection["name"]+ "</td>" + "<td>" + collapsedVal + "</td>";
+                    nvtable.appendChild(tableR);
+                  }
+                }
+            
+                if(includeDetails)
+                  detailsTable = nvtable.outerHTML;
+            
+                if (errorMessage === "" && detailsTable == "")
+                    errorMessage = "None";
+
+                nodeResults = nodeResults + "<tr><td>" + resultSet['nodeResults'][j]['node'] + "</td>" + "<td>" + mapStatus(resultSet['nodeResults'][j]['nodeResultStatus']) + "</td>" + "<td>" + errorMessage + "<br />" + detailsTable +"</td></tr>"
+            }
+
+            nodeResults = nodeResults + "</table>";
+            tableRow = tableRow + references + globalErrors + nodeResults + "</div>" + "</td><td class='details1' style='cursor:pointer' onclick=\"toggleElem('" + checkId + "');\">Details</td>";
+            tableRowElement.innerHTML = tableRow;
+            if (getStatusWeight(status) == 2 ) {
+                alertType = "alert-success";
+                if (checkData["cvucheck"] == true)
+                    succCvuChecks++;
+                else
+                    succOraChecks++;
+
+            }else if(getStatusWeight(status) == 1){
+                alertType = "alert-warning";
+                if (checkData["cvucheck"] == true)
+                    warningCvuChecks++;
+                else
+                    warningOraChecks++;
+            }else{
+                alertType = "alert-danger";
+                if (checkData["cvucheck"] == true)
+                    failedCvuChecks++;
+                else
+                    failedOraChecks++;
+            }
+
+            tableRowElement.className = "status" + getStatusWeight(status);
+
+            document.getElementById(tableId).appendChild(tableRowElement);
+
+            if (checkData["cvucheck"] == true && parseFloat(checkData["elapsedTime"] / 1000) > 2) {
+                tableRowElement = document.createElement('tr');
+                tableRow = "<td class='checks'>" + checkData["elementName"] + "</td><td>" + checkData["elapsedTime"] / 1000 + "</td>";
+                tableRowElement.innerHTML = tableRow;
+                document.getElementById("stats-table").appendChild(tableRowElement);
+            }
+
+            document.getElementById('loader').style.display = "none";
+
+        }
+
+        /* Map the status to the display status string */
+        function mapStatus(status) {
+            if (status === "SUCCESSFUL") {
+                status = metadata["PASSED"];
+            } else if (status === "VERIFICATION_FAILED") {
+                status = metadata["FAILED"];
+            } else if (status === "OPERATION_FAILED") {
+                status = metadata["FAILED"];
+            } else if (status === "WARNING") {
+                status = metadata["WARNING"];
+            }
+            return status;
+        }
+
+        /* Map the status to the weight */
+        function getStatusWeight(status) {
+            statusWeight = "9";
+            if (status === metadata["PASSED"]) {
+                statusWeight = "2";
+            } else if (status === metadata["FAILED"]) {
+                statusWeight = "0";
+            } else if (status === metadata["WARNING"]) {
+                statusWeight = "1";
+            }
+            return statusWeight;
+        }
+
+        /* expand and collapse the check details */
+        function toggleElem(checkId) {
+            var height = document.getElementById(checkId).style.maxHeight;
+            if (height === 0 || !height)
+                document.getElementById(checkId).style.maxHeight = document.getElementById(checkId).scrollHeight + 20+ "px";
+            else
+                document.getElementById(checkId).style.maxHeight = null;
+        }
+
+        /* Toggle the expand and collapse of results details */
+        function expandCollapse() {
+            if (lastOperation == "concise") {
+                expandAll();
+                document.getElementById("desc-details").innerHTML = metadata["collapse"] + " [-]";
+            } else {
+                collapseAll();
+                document.getElementById("desc-details").innerHTML = metadata["expand"] + " [+]";
+            }
+        }
+
+        /* Expand the details of the results */
+        function expandAll() {
+            var selects = document.querySelectorAll('.node-results');
+            var length = selects.length;
+            for (var i = 0; i < length; i++) {
+                selects[i].style.maxHeight = selects[i].scrollHeight + 20 + "px";
+            }
+            lastOperation = "detailed";
+        }
+
+        /* Collapse the details of all results */
+        function collapseAll() {
+            var selects = document.querySelectorAll('.node-results');
+            var length = selects.length;
+            for (var i = 0; i < length; i++) {
+                selects[i].style.maxHeight = null;;
+            }
+            lastOperation = "concise";
+        }
+
+        /* util function to trigger print of the report */
+        function printFunction() {
+            window.print();
+            return false;
+        }
+
+        /* sort the result column according to the weightage */
+        function sort(n) {
+            var table, rows, switching, i, current, next, shouldSwitch, switchcount = 0;
+            table = document.getElementById("results-table");
+            switching = true;
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    current = rows[i].getElementsByTagName("TD")[n];
+                    next = rows[i + 1].getElementsByTagName("TD")[n];
+                    if (current.innerHTML.toLowerCase() > next.innerHTML.toLowerCase()) { shouldSwitch = true; break; }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                }
+            }
+            switchcount = 0;
+            table = document.getElementById("stats-table");
+            switching = true;
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    current = rows[i].getElementsByTagName("TD")[1];
+                    next = rows[i + 1].getElementsByTagName("TD")[1];
+                    if (parseFloat(current.innerHTML) < parseFloat(next.innerHTML)) { shouldSwitch = true; break; }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                }
+            }
+        }
+    </script>
+
+</html>

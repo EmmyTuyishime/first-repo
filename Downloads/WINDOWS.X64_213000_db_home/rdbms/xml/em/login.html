@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<!--
+ Copyright (c) 2014, 2021, Oracle and/or its affiliates. 
+ MODIFIED  (MM/DD/YY)
+    rotrevi 05/10/21 - update copyright
+     yxie - 03/01/17 - Creation
+     yxie - 05/07/20 - Bug31317032: encode url parameters
+-->
+
+<html lang="EMX_LOCALE">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link id="shellStyleSheet" rel="stylesheet" type="text/css" href="shell.css" />
+    <link rel="icon" type="image/png"
+      href="#omx_base_path#/emsaasui/emcdbms-dbcsperf/ui-utils/components/application-omx/images/o_logo.png">
+    <title>Sign In To Oracle Enterprise Manager Database Express</title>
+    <style>
+      html {
+        visibility: hidden;
+      }
+    </style>
+
+    <script>
+      if (self === top) {
+        document.documentElement.style.visibility = 'visible';
+      } else {
+        top.location = self.location;
+      }
+    </script>
+
+    <script language="javascript" type="text/javascript">
+
+      var OMX_ERR_MSG = {
+        DEFAULT: "Request to database login failed",
+        INVALID_CREDS: "Invalid Database Credentials",
+        INVALID_CONTAINER: "Invalid Container Name",
+        CREATE_AJAX_FAILED: "Can not create AJAX request"
+      };
+      var PAGELOCALE = document.getElementsByTagName("html")[0].lang;
+      var LABELS_DEF;
+      var LABELS_LOC;
+
+      function updateLabels() {
+        var bundle = LABELS_DEF;
+        if (LABELS_LOC !== undefined && (PAGELOCALE !== 'en' || PAGELOCALE !== 'en-US')) {
+          bundle = LABELS_LOC;
+        }
+        if (bundle.LOGIN === undefined) {
+          return;
+        }
+        //Reset Error Messages
+        OMX_ERR_MSG = bundle.LOGIN.OMX_ERR_MSG;
+        var user = document.getElementsByClassName("usernls");
+        if (user.length === 1) {
+          user[0].innerText = bundle.LOGIN.USERNAME;
+        }
+        var pass = document.getElementsByClassName("passnls");
+        if (pass.length === 1) {
+          pass[0].innerText = bundle.LOGIN.PASSWORD;
+        }
+        var cont = document.getElementsByClassName("contnls");
+        if (cont.length === 1) {
+          cont[0].innerText = bundle.LOGIN.CONTAINER_NAME;
+        }
+        var log = document.getElementsByClassName("lognls");
+        if (log.length === 1) {
+          log[0].innerText = bundle.LOGIN.LOG_IN;
+        }
+        var cr = document.getElementById("copyrightD");
+        if (cr !== undefined && cr !== null) {
+          cr.innerText = bundle.LOGIN.COPYRIGHT.replace("{0}", "2020");
+        }
+      };
+
+      function onLoad() {
+        var isroot=0;
+        var containerNameElement = document.getElementById("containerNameElement");
+
+        if (isroot === 1) {
+          containerNameElement.style.display = "block";
+        }
+        else {
+          containerNameElement.style.display = "none";
+        }
+
+        // Get the input field
+        var usernameInput = document.getElementById("username");
+        // Execute a function when the user releases a key on the keyboard
+        usernameInput.addEventListener("keyup", function (event) {
+          // Cancel the default action, if needed
+          event.preventDefault();
+          // Number 13 is the "Enter" key on the keyboard
+          if (event.keyCode === 13) {
+            // Trigger the button element with a click
+            document.getElementById("signin").click();
+          }
+        });
+
+        var pwdInput = document.getElementById("password");
+        pwdInput.addEventListener("keyup", function (event) {
+          event.preventDefault();
+          if (event.keyCode === 13) {
+            document.getElementById("signin").click();
+          }
+        });
+
+        var conNameInput = document.getElementById("containerName");
+        conNameInput.addEventListener("keyup", function (event) {
+          event.preventDefault();
+          if (event.keyCode === 13) {
+            document.getElementById("signin").click();
+          }
+        });
+      }
+
+
+      /*
+       *  This function creates an ajax request
+       *
+       *  Parameters:
+       *       none
+       */
+      function createRequest() {
+        // creating a new AJAX request
+        var request;
+        try {
+          request = new XMLHttpRequest();
+        }
+        catch (trymicrosoft) {
+          try {
+            request = new ActiveXObject("Msxml2.XMLHTTP");
+          }
+          catch (othermicrosoft) {
+            try {
+              request = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            catch (failed) {
+              request = false;
+            }
+          }
+        }
+
+        if (!request) {
+          alert("Can not create AJAX request!");
+          return null;
+        }
+        else {
+          return request;
+        }
+      }
+
+      function showErrorMessage(errorCode) {
+        var errorDiv = document.getElementById("errorMessageId");
+        errorDiv.style.display = 'block';
+        errorDiv.style.textAlign = 'center';
+
+        if (errorCode === OMX_ERR_MSG.INVALID_CREDS) {
+          errorDiv.innerHTML = OMX_ERR_MSG.INVALID_CREDS;
+        }
+        else if (errorCode === OMX_ERR_MSG.INVALID_CONTAINER) {
+          errorDiv.innerHTML = OMX_ERR_MSG.INVALID_CONTAINER;
+        }
+        else {
+          errorDiv.innerHTML = OMX_ERR_MSG.DEFAULT;
+        }
+      }
+
+      //Set the labels to be Used first.
+      //First call will always be EN-US since its default.
+      //Second call will be the locale specified if any.
+      function define(labels) {
+        if (LABELS_DEF === undefined) {
+          LABELS_DEF = labels;
+          //Means first call, need to check if we need to load another bundle file.
+          if (PAGELOCALE !== 'en' && PAGELOCALE !== 'en-US') {
+            var localeStr = PAGELOCALE;
+            //Remove the country code
+            if (PAGELOCALE.length !== 2 && PAGELOCALE.charAt(2) === "-") {
+              localeStr = PAGELOCALE.substring(0, 2);
+            }
+            var script = document.createElement('script');
+            script.src = "#omx_base_path#/emsaasui/emcdbms-dbcsperf/ui-utils/#NLS_VERSION#/js/resources/nls/" + localeStr + "/dbcsPerfUiMsg.js";
+            document.head.appendChild(script);
+          }
+        } else if (LABELS_LOC === undefined) {
+          LABELS_LOC = labels;
+        }
+        updateLabels();
+      };
+
+      function doLogin() {
+        // get username and password input
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var containerName = null;
+        var containerNameInput = document.getElementById("containerName");
+        if (containerNameInput)
+          containerName = containerNameInput.value;
+
+        var requestUrl = "/em/orarep/doLogin";
+        if (containerName)
+          requestUrl = "/" + containerName + requestUrl;
+
+        var xhr = createRequest();
+
+        if (xhr) {
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+              if (xhr.status === 200 && xhr.responseXML) {
+                var loginReply = xhr.responseXML.getElementsByTagName("login");
+                if (loginReply && loginReply.length > 0 && loginReply[0]) {
+                  var token = loginReply[0].getAttribute("token");
+                  self.location = "/em/shell";
+                  window.localStorage.setItem("_emx_token", token);
+                  window.localStorage.setItem("username", username);
+                  console.log("Got token after successful login: ", token);
+                }
+                else {
+                  //Eg., Invalid credentials
+                  showErrorMessage(OMX_ERR_MSG.INVALID_CREDS);
+                }
+              }
+              else {  //Eg., Invalid container name etc.,
+                showErrorMessage(OMX_ERR_MSG.INVALID_CONTAINER);
+              }
+            }
+          };
+
+          //Network errors
+          xhr.onerror = function () {
+            showErrorMessage();
+          };
+
+          xhr.open("POST", requestUrl);
+          xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+          xhr.send("username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password));
+        }
+      }
+    </script>
+    <script language="javascript" type="text/javascript"
+      src="#omx_base_path#/emsaasui/emcdbms-dbcsperf/ui-utils/#NLS_VERSION#/js/resources/nls/root/dbcsPerfUiMsg.js"></script>
+  </head>
+
+<body onload="onLoad()">
+
+  <div class="container">
+    <div class="brandContainer">
+      <div class="branding">
+        <!-- Do not use head1 like OMC. This will result in Contrast error in OGHAG testing -->
+        <!--div class="head2">Sign In To</div-->
+        <div class="head2">Oracle Enterprise Manager</div>
+        <div class="head2" style="white-space: nowrap;">Database Express</div>
+      </div>
+      <div class="imageContainer">
+        <img
+          src="#omx_base_path#/emsaasui/emcdbms-dbcsperf/ui-utils/components/application-omx/images/mcs_login_324.png"
+          width="325" height="325" alt="Oracle Enterprise Manager Database Express"
+          title="Oracle Enterprise Manager Database Express">
+      </div>
+    </div>
+  </div>
+
+  <div class="stripe"></div>
+
+  <div class="contentContainer">
+    <div id="loginContainer" class="formContainer">
+      <div class="error" id="errorMessageId" style="display:none;"></div>
+
+      <div>
+        <label class="textBold usernls" style="display: inline-block; width: 110px; text-align: right;"
+          for="username">Username</label>
+        <input id="username" name="username" title="Username" />
+      </div>
+      <br />
+      <div>
+        <label class="textBold passnls" style="display: inline-block; width: 110px; text-align: right;"
+          for="password">Password</label>
+        <input id="password" name="password" type="password" title="Password" />
+      </div>
+      <br />
+      <div id="containerNameElement" style="display:none">
+        <div>
+          <label class="textBold contnls" style="display: inline-block; width: 110px; text-align: right;"
+            for="containerName">Container Name</label>
+          <input id="containerName" name="containerName" title="Container Name" />
+        </div>
+        <br />
+      </div>
+      <button class="button lognls" title="Log in" id="signin" onclick="doLogin();">Log in</button>
+      <div class="infoTextDiv" style="clear:both;"></div>
+    </div>
+
+    <div class="foot">
+      <div class="Ologo">
+        <img src="#omx_base_path#/emsaasui/emcdbms-dbcsperf/ui-utils/components/application-omx/images/OracleLogo.png"
+          alt="Oracle Logo" title="Oracle Logo">
+      </div>
+      <div class="clearfloat"></div>
+      <div class="copyright" id="copyrightD">Copyright 2013, 2021, Oracle and/or its affiliates. All rights reserved.
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

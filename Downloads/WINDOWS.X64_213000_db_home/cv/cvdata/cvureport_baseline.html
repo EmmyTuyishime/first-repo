@@ -1,0 +1,1278 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <meta content="Oracle" name="Author">
+    <title>CVU Report </title>
+</head>
+
+<body onload="dataLoad();" class="color-theme" id="bd">
+    <div id="myBtns" class="myBtns">
+        <button type="button" onclick="topFunction()" id="myBtn" title="Go to top" class="bdark">&#9650;</button>
+    </div>
+    <div id="modal" class="modal">
+        <div class="content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="details-content"></div>
+        </div>
+    </div>
+    <div class="resp-fluid">
+        <div class="gridrow">
+            <div class="bdark" id="sidebar-collapsed" style="width:100%">
+                <div class="stick-top">
+                    <nav class="resp">
+                        <a class="navtitle" href="#" id="nav-cvu-report"></a>
+                        <ul class="navlist">
+                            <li class="navi active">
+                                <a class="navl" href="#" id="nav-home"></a>
+                            </li>
+                            <li class="navi">
+                                <a class="navl" href="#sidebar-collapsed-bg" id="nav-summary"></a>
+                            </li>
+                            <li class="navi">
+                                <a class="navl" href="#results-title" id="nav-results"></a>
+                            </li>
+                        </ul>
+                        <ul class="navlist myBtns">
+                            <li>
+                                <button id="print" type="button" onclick="printFunction();" class="bdark"><span class="print-text">PRINT<span></button>
+                            </li>
+                            <li>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="bdark" id="sidebar-collapsed-bg" style="width:100%">
+                <div class="stick-top">
+                    <a class="navtitle" href="#" id="nav-cvu-report-hidden"></a>
+                </div>
+            </div>
+        </div>
+        <div class="gridrow">
+            <div class="column column12" id="mainbar">
+                <h4 id="summary-title" class="center"></h4>
+                <div id="op-details" class="resp details">
+                    <table id="op-details-table1" class="table" border="1">
+                    </table>
+                    <table id="op-details-table2" class="table" border="1">
+                    </table>
+                </div>
+                <div style="clear:both"></div>
+                <h4 id="results-title" class="center"></h4>
+                <div id="checks-summary" class="resp">
+                    <div class="buttons resp">
+                        <button type="button" class="button-blue" onclick="showAll()" id="total"></button>
+                        <button type="button" class="button-red" onclick="showMismatches()" id="failed"></button>
+                        <button type="button" class="button-yellow" onclick="showMismatchesFailures()" id="failed-mismatch"></button>
+                    </div>
+                    <h5 id="sections"></h5>
+                    <div class="resp center">
+                        <ul id="section-list">
+                        </ul>
+                    </div>
+                    <div id="results" class="resp">
+                    </div>
+                </div>
+                <div id="loader" class="loader" style="text-align:center"></div>
+            </div>
+        </div>
+    </div>
+</body> <!-- Stylesheet code -->
+<style>
+/* css for smaller screens */
+@media (min-width: 576px) {
+    .resp {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .resp {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .resp {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .resp {
+        max-width: 1140px;
+    }
+}
+
+body {
+    font-family: verdana;
+    font-size: 14px;
+    margin: 0px;
+}
+
+/* Navigation */
+
+.stick a,
+.stick-top a {
+    text-decoration: none;
+}
+
+.navlist.myBtns {
+    float: right;
+    margin-top: 0px;
+}
+
+.navlist.myBtns button {
+    font-size: 1.5rem;
+}
+
+.navtitle {
+    color: white;
+    font-weight: 500;
+    font-size: 1.5rem;
+    display: inline-flex;
+    padding: 10px;
+    padding-bottom: 20px;
+}
+
+.navlist {
+    display: inline-flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    vertical-align: middle;
+    padding-top: 0px;
+    margin-top: 0px;
+}
+
+.navlist .navi {
+    list-style: none;
+    font-weight: 400;
+    margin-bottom: 5px;
+    font-size: 16px;
+    display: list-item;
+    padding-left: 20px;
+}
+
+.navlist .navi .navl {
+    list-style: none;
+    font-weight: 400;
+    margin-bottom: 5px;
+    font-size: 16px;
+    float: left;
+}
+
+.navtitle:hover {
+    color: white;
+}
+
+.navi,
+.navi a {
+    list-style: none;
+    font-weight: 400;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.navi a:hover {
+    color: white;
+}
+
+.navl,
+.stick hr {
+    color: rgba(255, 255, 255, .5);
+}
+
+.navl.active {
+    color: white;
+}
+
+#section-list {
+    list-style: square;
+    display: inline-block;
+    column-count: 2;
+}
+
+#section-list li {
+    text-align: left;
+    font-size: 1.1rem;
+}
+
+#section-list li a {
+    word-break: break-all;
+    padding: 5px;
+}
+
+/* Buttons */
+
+button {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    cursor: pointer;
+}
+
+.buttons {
+    width: 100%;
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+}
+
+.buttons button {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: white;
+    border: 0px;
+    font-weight: 400;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+
+}
+
+.buttons button span {
+    color: black;
+    background-color: white;
+    font-size: 1rem;
+    text-align: center;
+    padding: 0.25rem;
+    top: -1px;
+    border-radius: 5px;
+    font-weight: 700;
+    position: relative;
+    min-width: 30px;
+    margin-left: 5px;
+}
+
+.button-green {
+    background-color: #28a746;
+    border-color: #28a746;
+}
+
+.button-green:hover {
+    background-color: #218838;
+}
+
+.button-red {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.button-red:hover {
+    background-color: #C82332;
+}
+
+.button-blue {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.button-blue:hover {
+    background-color: #0268D9;
+}
+
+.button-yellow {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    color: black !important;
+    background-color: #ffc105;
+    border-color: #ffc105;
+}
+
+.button-yellow:hover {
+    background-color: #DFA826;
+}
+
+#myBtns {
+    position: fixed;
+    /* Fixed/sticky position */
+    bottom: 20px;
+    /* Place the button at the bottom of the page */
+    right: 30px;
+    /* Place the button 30px from the right */
+    z-index: 99;
+    /* Make sure it does not overlap */
+}
+
+.myBtns button {
+    width: 40px;
+    margin-top: 10px;
+    color: white;
+    font-size: 16px;
+    border-radius: 20px;
+}
+
+h4 {
+    font-size: 1.5rem;
+}
+
+h5 {
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+h2,
+h3,
+h4,
+h5 {
+    color: #0D47A1;
+    margin-top: 20px;
+}
+
+
+/* Columns */
+
+.column2 {
+    flex: 0 0 16.666667%;
+    max-width: 16.666667%;
+    padding: 0px;
+}
+
+.column10 {
+    flex: 0 0 83.333333%;
+    max-width: 83.333333%;
+}
+
+.column12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+.column,
+.column2,
+.column10,
+.column12 {
+    position: relative;
+    width: 100%;
+}
+
+.gridrow {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.resp-fluid {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.resp {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#sidebar-collapsed {
+    position: fixed;
+    z-index: 99;
+}
+
+
+/* Table */
+
+table {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.table .tdark th {
+    color: #fff;
+    background-color: #343a41;
+    border-color: #454d56;
+}
+
+.table {
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    border: 1px solid #343a41;
+    border-collapse: collapse;
+    table-layout: fixed;
+    max-width: 100%;
+}
+
+.table .table-left {
+    float: left;
+}
+
+.table td,
+.table th {
+    padding: .6rem;
+    word-break: break-all;
+    min-width: 150px;
+
+}
+
+td .table td,
+td .table th {
+    padding: .6rem;
+    word-break: break-all;
+    min-width: 80px;
+
+}
+
+td table td,
+td table th {
+    padding: 2px !important;
+    word-break: break-all;
+    min-width: 80px;
+
+}
+
+.table-primary,
+.table-primary>td,
+.table-primary>th {
+    background-color: #d6e9ff;
+}
+
+#op-details table {
+    display: inline-block;
+}
+
+#op-details {
+    text-align: center;
+}
+
+#op-details-table1 {
+    margin-bottom: 30px;
+    max-width: 45%;
+    vertical-align: top;
+}
+
+#op-details-table2 {
+    margin-bottom: 30px;
+    max-width: 45%;
+    vertical-align: top;
+}
+
+/* Misc */
+.checks {
+    word-wrap: break-all;
+    max-width: 200px;
+}
+
+.PASSED {
+    color: #155724;
+}
+
+.FAILED {
+    color: #721c24;
+}
+
+.WARNING {
+    color: #856404;
+}
+
+.node-results {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+a {
+    cursor: pointer;
+}
+
+.hidden-elem,
+.hidden {
+    display: none;
+}
+
+.status,
+.details1 {
+    text-decoration: underline;
+    font-weight: bolder;
+}
+
+.details1 {
+    color: #007bff;
+}
+
+#desc-details {
+    cursor: pointer;
+}
+
+.stick ul {
+    margin-bottom: 20px;
+}
+
+.stick {
+    position: fixed;
+}
+
+.stick-top .nav {
+    padding-top: 10px;
+}
+
+.bdark {
+    background-color: #343a41 !important;
+}
+
+.center {
+    text-align: center;
+}
+
+.count {
+    font-size: 28px;
+}
+
+:target::before {
+    content: "";
+    display: block;
+    height: 90px;
+    /* fixed header height*/
+    margin: -90px 0 0;
+    /* negative fixed header height */
+}
+
+#checkboxes {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#checkboxes label {
+    margin-left: 20px;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.9);
+    /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.expand-nodewise {
+    cursor: pointer;
+    color: dodgerblue;
+    text-decoration: underline;
+    float: right;
+}
+
+.node-results table {
+    width: 100%;
+}
+
+#details-content .expand-nodewise {
+    display: none;
+}
+
+.mismatch {
+    color: red !important;
+}
+
+.match {}
+
+.hiddenColName {
+    visibility: hidden;
+    border-bottom: none;
+    border-top: none;
+}
+
+.showColName {
+    visibility: visible;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+}
+
+.print-text {
+    font-size: 14px;
+}
+
+.loader {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #3498db;
+    border-radius: 36px;
+    width: 40px;
+    height: 40px;
+    animation: spin 2s linear infinite;
+    margin: auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#total,
+#failed,
+#failed-mismatch {
+    display: none;
+}
+
+.hoverExpand {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+    cursor: pointer;
+}
+
+.hoverExpand:hover {
+    white-space: normal;
+    cursor: normal;
+
+}
+
+.resultsColumn {
+    max-width:300px;
+}
+
+.entityColumn{
+    max-width:200px;
+}
+</style> <!-- Javascript code -->
+<script>
+/* Keeps the current status of the detailed/concise report*/
+var lastOperation = "concise";
+var totalCvuChecks = 0;
+var succCvuChecks = 0;
+var failedCvuChecks = 0;
+var warningCvuChecks = 0;
+var report1TimeStamp = "";
+var report2TimeStamp = "";
+var refNode1 = "";
+var refNode2 = "";
+var opDetails1 = null;
+var opDetails2 = null;
+
+var collectionNames = [];
+/* When the user clicks on the button, scroll to the top of the document*/
+function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
+
+/* Animate the the number of failures, succeeded checks and total checks*/
+function animateValue(id, start, end) {
+    var range = end - start;
+    var current = start;
+    var increment = end > start ? 1 : -1;
+    var obj = document.getElementById(id);
+
+    if (range < 5) {
+        obj.innerHTML = end;
+    } else {
+        var stepTime = Math.abs(Math.floor(2000 / range));
+        var timer = setInterval(function() {
+            current += increment;
+            obj.innerHTML = current;
+            if (current == end) {
+                clearInterval(timer);
+            }
+        }, stepTime);
+    }
+}
+
+/* Util function to update class for elements*/
+function updateClass(className, newClass) {
+    var selects = document.querySelectorAll(className);
+    var length = selects.length;
+    for (var i = 0; i < length; i++) {
+        selects[i].className = newClass;
+    }
+}
+
+function hidesClass(className) {
+    var selects = document.querySelectorAll(className);
+    var length = selects.length;
+    for (var i = 0; i < length; i++) {
+        selects[i].className = selects[i].className + " hidden";
+    }
+}
+
+function showsClass(className) {
+    var selects = document.querySelectorAll(className);
+    var length = selects.length;
+    for (var i = 0; i < length; i++) {
+        selects[i].className = selects[i].className.replace(" hidden", "");
+    }
+}
+
+/* Show mismatches*/
+function showMismatches() {
+    hidesClass(".match");
+    updateClass(".hiddenColName", "showColName");
+    adjustTableWidths(".table.result-tables");
+}
+
+/* Show mismatches*/
+function showMismatchesFailures() {
+    showAll();
+    hidesClass(".SUCCESSFUL.match");
+    updateClass(".hiddenColName", "showColName");
+    adjustTableWidths(".table.result-tables");
+}
+
+/* Show all the collections*/
+function showAll() {
+    showsClass(".match");
+    updateClass(".showColName", "hiddenColName");
+    adjustTableWidths(".table.result-tables");
+}
+
+
+/* Update innerHTML of an element*/
+function updateContent(id, content) {
+    if (document.getElementById(id))
+        document.getElementById(id).innerHTML = content;
+}
+
+/* Add the result table*/
+function addResultTable(id) {
+    if (document.getElementById("results-table" + id))
+        return;
+    var tableElement = document.createElement('table');
+    tableElement.innerHTML = "<thead class='tdark'><tr><th id='checks-header" + id + "' class='checks resultsColumn'> </th><th id='node-header" + id + "' class='checks entityColumn'> </th><th id='report1-header" + id + "' class='checks'> </th><th id='report2-header" + id + "' class='checks rp2col'> </th></tr></thead>";
+    tableElement.id = "results-table" + id;
+    tableElement.className = "table result-tables";
+    tableElement.border = "1";
+    if (document.getElementById("results"))
+        document.getElementById("results").appendChild(tableElement);
+    updateContent("checks-header" + id, metadata["checksHeader"]);;
+    updateContent("node-header" + id, "Entity");
+    updateContent("report1-header" + id, report1TimeStamp);
+    updateContent("report2-header" + id, report2TimeStamp);
+}
+
+/* Add the name value table*/
+function addNameValueTable(id) {
+    var tableElement = document.createElement('table');
+    tableElement.innerHTML = "<thead class='tdark'><tr><th>" + metadata["name"] + "</th><th>" + metadata["value"] + "</th></tr></thead>";
+    tableElement.id = "kv-table" + id;
+    tableElement.className = "table";
+    tableElement.border = "1";
+    return tableElement;
+}
+
+/* Make all the tables of same width irrespective of the contents*/
+function adjustTableWidths(tableClass) {
+    var selects = document.querySelectorAll(tableClass);
+    var length = selects.length;
+    var max = 0;
+    for (var i = 0; i < length; i++) {
+        if (max < selects[i].offsetWidth)
+            max = selects[i].offsetWidth;
+    }
+    for (var i = 0; i < length; i++) {
+        if (selects[i].offsetWidth < max)
+            selects[i].style.width = max + "px";
+    }
+}
+
+/* Update the operation details*/
+function updateDetailsTable(details, tableId) {
+    var detailKeys = Object.keys(metadata);
+
+    var tableRowElement = document.createElement('tr');
+    tableRowElement.innerHTML = "<td class='block'><b>" + metadata["report"] + "</b></td><td>" + metadata["report" + tableId] + "</td>";
+    if (document.getElementById('op-details-table' + tableId))
+        document.getElementById('op-details-table' + tableId).appendChild(tableRowElement);
+
+    for (var i = 0; i < detailKeys.length; i++) {
+        if (details[detailKeys[i]]) {
+            tableRowElement = document.createElement('tr');
+            if (detailKeys[i] === "timeStamp") {
+                var date = new Date(details[detailKeys[i]]);
+                tableRowElement.innerHTML = "<td class='block'><b>" + metadata[detailKeys[i]] + "</b></td><td>" + date.toDateString() + " " + date.toLocaleTimeString() + "</td>";
+                if (tableId == '1')
+                    report1TimeStamp = date.toDateString() + " " + date.toLocaleTimeString();
+                else
+                    report2TimeStamp = date.toDateString() + " " + date.toLocaleTimeString();
+            } else if (detailKeys[i] === "databases") {
+                var dbs = details[detailKeys[i]];
+                var databases = "";
+                if (dbs.length > 1) {
+                    databases = "<td class='block'><b> " + metadata[detailKeys[i]] + "</b></td><td>";
+                    for (var d = 0; d < dbs.length; d++) {
+                        databases += "<table><tr><td>" + dbs[d]["databaseName"] + "</td></tr><tr><td>" + dbs[d]["databaseHome"] + "</td></tr><tr><td>" + dbs[d]["databaseVersion"] + "</td></tr></table>";
+                    }
+
+                    databases += "</td>";
+                    tableRowElement.innerHTML = databases;
+                }
+            } else {
+                tableRowElement.innerHTML = "<td class='block'><b>" + metadata[detailKeys[i]] + "</b></td><td>" + details[detailKeys[i]] + "</td>";
+            }
+            if (document.getElementById('op-details-table' + tableId))
+                document.getElementById('op-details-table' + tableId).appendChild(tableRowElement);
+        }
+    }
+
+}
+
+/* Map the status to the display status string */
+function mapStatus(status) {
+    if (status === "SUCCESSFUL") {
+        status = metadata["PASSED"];
+    } else if (status === "VERIFICATION_FAILED") {
+        status = metadata["FAILED"];
+    } else if (status === "OPERATION_FAILED") {
+        status = metadata["FAILED"];
+    } else if (status === "WARNING") {
+        status = metadata["WARNING"];
+    }
+    return status;
+}
+
+/* Map the status to the weight */
+function getStatusWeight(status) {
+    statusWeight = "9";
+    if (status === metadata["PASSED"]) {
+        statusWeight = "2";
+    } else if (status === metadata["FAILED"]) {
+        statusWeight = "0";
+    } else if (status === metadata["WARNING"]) {
+        statusWeight = "1";
+    }
+    return statusWeight;
+}
+
+/* Main data load function. Updates the page with the data in the json format*/
+function dataLoad() {
+    document.getElementById('loader').style.display = "block";
+    document.getElementById('total').style.display = "none";
+    document.getElementById('failed').style.display = "none";
+    document.getElementById('failed-mismatch').style.display = "none";
+
+    /* Fill the place holders*/
+    updateContent("summary-title", metadata["summaryTitle"]);
+    updateContent("results-title", metadata["resultsTitle"]);
+    updateContent("nav-summary", metadata["navSummary"]);
+    updateContent("nav-cvu-report", metadata["navReport"]);
+    updateContent("nav-cvu-report-hidden", metadata["navReport"]);
+    updateContent("nav-home", metadata["navHome"]);
+    updateContent("nav-results", metadata["checksHeader"]);
+    updateContent("total", metadata["total"] + '<span id="count1">' + metadata["totalNum"] + '</span>');
+    updateContent("failed", metadata["mismatches"] + '<span id="count3">' + metadata["failNum"] + '</span>');
+    updateContent("failed-mismatch", metadata["mismatches"] + " OR " + metadata["FAILED"]);
+
+    if (typeof jsonData1 !== 'undefined') {
+        var details = jsonData1[0]['detailedOperationSummary'];
+        opDetails1 = details;
+        updateDetailsTable(details, '1');
+        if (metadata["cross_compare"] == "TRUE") {
+            var nodes = details['nodeListStr'];
+            refNode1 = nodes.split(",")[0];
+        }
+
+    }
+
+    if (typeof jsonData2 !== 'undefined') {
+        var details = jsonData2[0]['detailedOperationSummary'];
+        opDetails2 = details;
+        updateDetailsTable(details, '2');
+        if (metadata["cross_compare"] == "TRUE") {
+            var nodes = details['nodeListStr'];
+            refNode2 = nodes.split(",")[0];
+        }
+    }
+
+    if (typeof jsonData1 !== 'undefined') {
+        /* Display summary of the reports*/
+        var data = jsonData1[0];
+
+        var targets = data['targets'];
+        var reportNum = 1;
+
+        for (var m = 0; m < targets.length; m++) {
+            var ident = targets[m]["id"].replace(/^[a-zA-Z0-9]/g, '');
+            if (!document.getElementById("target-title-" + ident)) {
+                var heading = document.createElement("h5");
+                heading.id = "target-title-" + ident;
+                heading.innerHTML = targets[m]["description"].replace('"{0}"', "");
+                document.getElementById("results").appendChild(heading);
+                var targetLink = document.createElement('li');
+                targetLink.innerHTML = "<a href='#" + heading.id + "' >" + targets[m]["description"].replace('"{0}"', "") + "</a>";
+                document.getElementById("section-list").appendChild(targetLink);
+                addResultTable(ident);
+            }
+            var checksData = targets[m]['checks'];
+            for (var i = 0; i < checksData.length; i++) {
+                checksData[i]["cvucheck"] = true;
+                totalCvuChecks++;
+                loadRow(checksData[i], "results-table" + ident, totalCvuChecks, targets[m]["id"], reportNum);
+            }
+        }
+    }
+
+    if (typeof jsonData2 !== 'undefined') {
+        /* Loop over the report 2 and populate the collections*/
+        data = jsonData2[0];
+        reportNum = 2;
+
+        targets = data['targets'];
+        for (var m = 0; m < targets.length; m++) {
+            var ident = targets[m]["id"].replace(/^[a-zA-Z0-9]/g, '');
+            if (document.getElementById("target-title-" + ident)) {} else {
+                var heading = document.createElement("h5");
+                heading.id = "target-title-" + ident;
+                heading.innerHTML = targets[m]["description"].replace('"{0}"', "");
+                document.getElementById("results").appendChild(heading);
+                var targetLink = document.createElement('li');
+                targetLink.innerHTML = "<a href='#" + heading.id + "' >" + targets[m]["description"].replace('"{0}"', "") + "</a>";
+                document.getElementById("section-list").appendChild(targetLink);
+                addResultTable(ident);
+            }
+            var checksData = targets[m]['checks'];
+            for (var i = 0; i < checksData.length; i++) {
+                totalCvuChecks++;
+                loadRow(checksData[i], "results-table" + ident, totalCvuChecks, targets[m]["id"], reportNum);
+            }
+        }
+
+
+        var tables = document.getElementById("results").childNodes;
+        if (tables) {
+            for (var i = 0; i < tables.length; i++) {
+
+                var tableRows = tables[i].childNodes;
+
+                if (tableRows) {
+                    for (var j = 1; j < tableRows.length; j++) {
+
+                        var lastChild = tableRows[j].lastChild;
+                        var report2Value = lastChild.innerHTML;
+                        var report1Value = lastChild.previousSibling.innerHTML;
+
+
+                        if (tableRows[j].className.includes("relaxed")) {
+                            if (report2Value != "") {
+                                var splits = report2Value.split("<br>");
+                                if (splits.length > 1)
+                                    report2Value = splits[1];
+                            }
+                            if (report1Value != "") {
+                                var splits = report1Value.split("<br>");
+                                if (splits.length > 1)
+                                    report1Value = splits[1];
+                            }
+
+                        }
+
+
+                        if (tableRows[j].childNodes.length > 3 && report2Value != report1Value && report2Value.trim() != "" && report1Value.trim() != "") {
+                            failedCvuChecks++;
+                            tableRows[j].className = tableRows[j].className + " mismatch";
+                            var firstChildReport2 = lastChild.childNodes[0];
+                            var firstChildReport1 = lastChild.previousSibling.childNodes[0];
+                            if (firstChildReport2 && firstChildReport2.tagName == 'TABLE' && firstChildReport1 && firstChildReport1.tagName == 'TABLE' &&
+                                firstChildReport2.lastChild && firstChildReport2.lastChild.childNodes && firstChildReport1.lastChild &&
+                                firstChildReport1.lastChild.childNodes) {
+                                for (var t = 0; t < firstChildReport2.lastChild.childNodes.length; t++) {
+                                    if (firstChildReport2.lastChild.childNodes[t] && firstChildReport2.lastChild.childNodes[t].lastChild &&
+                                        firstChildReport1.lastChild.childNodes[t] && firstChildReport1.lastChild.childNodes[t].lastChild) {
+                                        value1 = firstChildReport2.lastChild.childNodes[t].lastChild.innerHTML;
+                                        value2 = firstChildReport1.lastChild.childNodes[t].lastChild.innerHTML;
+
+                                        if (value1 != value2 && value1.trim() != "" && value2.trim() != "") {
+                                            firstChildReport2.lastChild.childNodes[t].className = "mismatch";
+                                            firstChildReport1.lastChild.childNodes[t].className = "mismatch";
+                                        } else {
+                                            firstChildReport2.lastChild.childNodes[t].className = "match";
+                                            firstChildReport1.lastChild.childNodes[t].className = "match";
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            tableRows[j].className = tableRows[j].className + " match";
+                        }
+                    }
+                }
+            }
+        }
+        var matchedValues = document.querySelectorAll(".match").length;
+        var misMatchedValues = document.querySelectorAll(".mismatch").length;
+        animateValue("count1", matchedValues + misMatchedValues, matchedValues + misMatchedValues);
+        animateValue("count3", failedCvuChecks, failedCvuChecks);
+    } else {
+        updateClass(".buttons.resp", "hidden");
+        updateClass(".checks.rp2col", "hidden");
+    }
+
+    adjustTableWidths(".table.result-tables");
+    document.getElementById('loader').style.display = "none";
+    document.getElementById('total').style.display = "block";
+    document.getElementById('failed').style.display = "block";
+    document.getElementById('failed-mismatch').style.display = "block";
+
+
+}
+
+/* process value */
+function processAndReplace(value, i) {
+    var details = eval("opDetails" + i);
+    if (value == null || details == null)
+        return value;
+
+    value = value.replace(details["oracleBase"], "ORACLE_BASE");
+    value = value.replace(details["crsHome"], "CRS_HOME");
+
+    return value;
+}
+
+function updateCollectionCell(collection, reportNum, tableElem, targetName) {
+    if (collection["node"] == null) {
+        var details = eval("opDetails" + reportNum);
+        if (details["clusterName"] != null)
+            collection["node"] = details["clusterName"];
+        else
+            collection["node"] = metadata["global"];
+    }
+
+    var nodeString = collection["node"];
+    if (refNode1 == collection["node"] || refNode2 == collection["node"])
+        nodeString = refNode1 + "," + refNode2;
+    var rowId = targetName + collection["name"] + nodeString;
+    var collectionName = targetName + collection["name"];
+    collectionName = collectionName.replace(/^[a-zA-Z0-9]/g, '');
+
+    if (document.getElementById(rowId.replace(/^[a-zA-Z0-9]/g, ''))) {
+
+        var value = collection["value"];
+        if (value == null && collection["collection"].length > 0) {
+            var nvtable = addNameValueTable(rowId.replace(/^[a-zA-Z0-9]/g, '') + collection["name"]);
+            for (var c = 0; c < collection["collection"].length; c++) {
+                var tableR = document.createElement("tr");
+                var val = collection["collection"][c]["value"];
+                var collapsedVal = val;
+                if (val && val.length > 20) {
+                    collapsedVal = '<p class="hoverExpand">' + val + "</p>";
+                }
+                tableR.innerHTML = "<td>" + processAndReplace(collection["collection"][c]["name"], reportNum) + "</td>" + "<td>" + collapsedVal + "</td>";
+                nvtable.appendChild(tableR);
+            }
+            value = nvtable.outerHTML;
+        } else if (value != null && typeof value === 'object')
+            value = JSON.stringify(value, Object.keys(value).sort());
+
+        if (document.getElementById(rowId.replace(/^[a-zA-Z0-9]/g, '') + reportNum)) {
+            var existingValue = document.getElementById(rowId.replace(/^[a-zA-Z0-9]/g, '') + reportNum).innerHTML;
+            value = processAndReplace(value, reportNum);
+            document.getElementById(rowId.replace(/^[a-zA-Z0-9]/g, '') + reportNum).innerHTML = existingValue + "," + value;
+        } else {
+            var report2Value = document.createElement('td');
+            report2Value.id = rowId.replace(/^[a-zA-Z0-9]/g, '') + reportNum;
+
+            if (value == null)
+                value = "";
+            else
+                value = value + "<br>";
+
+            value = value + "<table>";
+
+            var expectedValue = collection["expectedValue"];
+            if (expectedValue != null) {
+                if (typeof expectedValue === 'object')
+                    expectedValue = JSON.stringify(expectedValue, null, 4);
+                value = value + "<tr><td>Expected:" + expectedValue + "</td></tr>";
+            }
+
+            if (collection["status"] != null) {
+                value = value + "<tr><td>Status:" + collection["status"] + "</td></tr>";
+
+                var errors = "";
+                for (var err = 0; err < collection["errors"].length; err++)
+                    errors = errors + collection["errors"][err]["errorMessage"] + "<br>";
+                if (errors != "")
+                    value = value + "<tr><td> Errors: " + errors + "</td></tr>"
+            }
+            value = value + "</table>";
+
+            value = processAndReplace(value, reportNum);
+            report2Value.innerHTML = value;
+            var tableRowEl = document.getElementById(rowId.replace(/^[a-zA-Z0-9]/g, ''));
+            tableRowEl.appendChild(report2Value);
+            tableRowEl.className = tableRowEl.className + " " + collection["status"];
+        }
+    } else {
+        var tableRowElement = document.createElement('tr');
+        var value = collection["value"];
+
+        tableRowElement.id = rowId.replace(/^[a-zA-Z0-9]/g, '');
+        if (value == null && collection["collection"].length > 0) {
+            var nvtable = addNameValueTable(tableRowElement.id + collection["name"]);
+            for (var c = 0; c < collection["collection"].length; c++) {
+                var tableR = document.createElement("tr");
+                var val = collection["collection"][c]["value"];
+                var collapsedVal = val;
+                if (val && val.length > 20) {
+                    collapsedVal = '<p class="hoverExpand">' + val + "</p>";
+                }
+                tableR.innerHTML = "<td>" + processAndReplace(collection["collection"][c]["name"], reportNum) + "</td>" + "<td>" + collapsedVal + "</td>";
+                nvtable.appendChild(tableR);
+            }
+            value = nvtable.outerHTML;
+
+        } else if (value != null && typeof value === 'object')
+            value = JSON.stringify(value, Object.keys(value).sort());
+
+
+
+        var expectedValue = collection["expectedValue"];
+
+        if (value == null)
+            value = "";
+        else
+            value = value + "<br>";
+
+        value = value + "<table>";
+
+        if (expectedValue != null) {
+            if (typeof expectedValue === 'object')
+                expectedValue = JSON.stringify(expectedValue, null, 4);
+            value = value + "<tr><td>Expected:" + expectedValue + "</td></tr>";
+        }
+
+
+        if (collection["status"] != null) {
+            value = value + "<tr><td>Status:" + collection["status"] + "</td></tr>";
+
+            var errors = "";
+            for (var err = 0; err < collection["errors"].length; err++)
+                errors = errors + collection["errors"][err]["errorMessage"] + "<br>";
+            if (errors != "")
+                value = value + "<tr><td> Errors: " + errors + "</td></tr>"
+        }
+
+        value = value + "</table>";
+
+        value = processAndReplace(value, reportNum);
+
+        var collectionClass = "";
+        var sibling = null;
+        if (collectionNames[collectionName]) {
+            collectionClass = "hiddenColName";
+            sibling = document.getElementById(collectionNames[collectionName]);
+        } else
+            collectionNames[collectionName] = tableRowElement.id;
+
+        if (collection["relaxedComparison"] == true)
+            tableRowElement.className = "relaxed";
+
+        tableRowElement.className = tableRowElement.className + " " + collection["status"];
+
+        if (reportNum == 2)
+            tableRowElement.innerHTML = "<td class='" + collectionClass + "'>" + processAndReplace(collection["name"], reportNum) + "</td><td>" + nodeString + "</td><td></td><td id='" + tableRowElement.id + reportNum + "'>" + value + "</td>";
+        else
+            tableRowElement.innerHTML = "<td class='" + collectionClass + "'>" + processAndReplace(collection["name"], reportNum) + "</td><td>" + nodeString + "</td><td id='" + tableRowElement.id + reportNum + "'>" + value + "</td>";
+
+        if (!sibling)
+            tableElem.appendChild(tableRowElement);
+        else
+            tableElem.insertBefore(tableRowElement, sibling.nextSibling);
+
+    }
+}
+
+/* function to update the results of a check into the table row */
+function loadRow(checkData, tableId, i, targetName, reportNum) {
+    checkData["cvucheck"] = true;
+    var checkId = "check" + i;
+    var nodeResults = checkData["resultSet"]["nodeResults"];
+    var globalCollection = checkData["resultSet"]["globalCollection"];
+    var tableElem = document.getElementById(tableId);
+
+    for (var a = 0; a < nodeResults.length; a++) {
+        for (var b = 0; b < nodeResults[a]["collection"].length; b++) {
+            var collection = nodeResults[a]["collection"][b];
+            updateCollectionCell(collection, reportNum, tableElem, targetName);
+        }
+    }
+    for (var a = 0; a < globalCollection.length; a++) {
+        var collection = globalCollection[a];
+        updateCollectionCell(collection, reportNum, tableElem, targetName);
+    }
+}
+
+/* util function to trigger print of the report*/
+function printFunction() {
+    window.print();
+    return false;
+}
+</script>
+
+</html>

@@ -1,0 +1,259 @@
+<!-- saved from url=(0014)about:internet -->
+<html lang="en">
+<!-- Copyright (c) 2012, 2018, Oracle and/or its affiliates. 
+All rights reserved.-->
+<!-- 
+Smart developers always View Source. 
+
+This application was built using Adobe Flex, an open source framework
+for building rich Internet applications that get delivered via the
+Flash Player or to desktops via Adobe AIR. 
+// -->
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon" />
+
+<title>EM Express Login</title>
+<script src="AC_OETags.js" language="javascript"></script>
+  
+<style>
+  html {visibility:hidden;}
+</style>
+<script>
+  if (self===top) {
+    document.documentElement.style.visibility='visible';
+  } else {
+    top.location=self.location;
+  }
+</script>
+
+<!-- BEGIN EM Express active report feature list javascript -->
+<script language="javascript" type="text/javascript" src="scripts/reportMap.js"></script>
+<!-- END EM Express active report feature list javascript -->
+
+<style>
+body { margin: 0px; overflow: "auto" }
+</style>
+<script language="JavaScript" type="text/javascript">
+<!--
+// -----------------------------------------------------------------------------
+// Globals
+// Major version of Flash required
+var requiredMajorVersion = 10;
+// Minor version of Flash required
+var requiredMinorVersion = 0;
+// Minor version of Flash required
+var requiredRevision = 0;
+// -----------------------------------------------------------------------------
+// -->
+</script>
+
+<!-- contains functions for resizing the flash app -->
+<script language="JavaScript" type="text/javascript">
+  /*
+   *  Returns the current height of the browser window.
+   *
+   */
+  function getWindowHeight()
+  {
+    var windowHeight = 0;
+  
+    // if window.innerWidth is defined, use it
+    if (typeof(window.innerHeight ) == 'number')
+    {
+      // not IE...
+      windowHeight = window.innerHeight;
+    }
+    else if (document.documentElement &&
+             (document.documentElement.clientWidth 
+              || document.documentElement.clientHeight))
+    {
+      //IE 6 + others in 'standards compliant mode'
+      windowHeight = document.documentElement.clientHeight;
+    }
+    else if (document.body &&
+             (document.body.clientWidth || document.body.clientHeight))
+    {
+      // IE 4 compatible
+      windowHeight = document.body.clientHeight;
+    }
+  
+    return windowHeight;
+  }
+  
+  
+  /*
+   *  Returns the current width of the browser window.
+   *
+   */
+  function getWindowWidth()
+  {
+    var windowWidth = 0;
+  
+    // if window.innerWidth is defined, use it
+    if (typeof(window.innerHeight ) == 'number')
+    {
+      // not IE...
+      windowWidth = window.innerWidth;
+    }
+    else if (document.documentElement &&
+             (document.documentElement.clientWidth 
+              || document.documentElement.clientHeight))
+    {
+      //IE 6 + others in 'standards compliant mode'
+      windowWidth = document.documentElement.clientWidth;
+    }
+    else if (document.body &&
+             (document.body.clientWidth || document.body.clientHeight))
+    {
+      // IE 4 compatible
+      windowWidth = document.body.clientWidth;
+    }
+  
+    return windowWidth;
+  }
+
+  
+  /*
+   *  Adjusts the size of the flash app.
+   *
+   */
+  function sizeFlashApp()
+  {
+    // get the flash element whose dimensions need to be reset
+    var elemEMExpressLogin = document.getElementById('emxLogin');
+    
+    // if the element is not null
+    if (elemEMExpressLogin)
+    {
+      // get the minimum dimensions (right now, these are hardcoded values). 
+      // we have to do this because if the contents of the flash app are clipped 
+      // due to flex scrollbars, JAWS won't read out the clipped content; on
+      // the other hand, if we assert a minimum flash app size and the content 
+      // is clipped because of browser scrollbars, JAWS will read out everything 
+      // on the page, including the clipped content
+      var minWidth = 900;
+      var minHeight = 600;
+    
+      // get the current dimensions of the page
+      var windowWidth = getWindowWidth();
+      var windowHeight = getWindowHeight();
+    
+      // make sure the flash app meets our minimum dimension requirements
+      elemEMExpressLogin.width = (windowWidth < minWidth) ? minWidth : windowWidth;
+      elemEMExpressLogin.height = (windowHeight < minHeight) ? minHeight : windowHeight;
+    }
+  }
+  
+  
+  /*
+   *  This function is called when the body finishes loading.
+   *
+   */
+  function loadCompleted()
+  {
+    // size the flash app
+    sizeFlashApp();
+  
+    // make sure the flash app is sized every time the window size changes
+    window.onresize = sizeFlashApp;
+  }
+</script>
+
+</head>
+
+<body onload="loadCompleted();">
+<div id="flashApp"></div><span id="endOfSwf"></span>
+<script language="JavaScript" type="text/javascript">
+<!--
+// Version check for the Flash Player that has the ability to start Player Product Install (6.0r65)
+var hasProductInstall = DetectFlashVer(6, 0, 65);
+// Version check based upon the values defined in globals
+var hasRequestedVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
+
+var caching_number=EMX_CACHING_NUMBER;
+var language_code="EMX_LOCALE";
+var flash_vars="em_express=true&isroot=0&caching=" + caching_number + "&locale=" + language_code;
+// set the "lang" attribute in the html tag 
+document.documentElement.lang=language_code;
+
+if ( hasProductInstall && !hasRequestedVersion ) {
+  // DO NOT MODIFY THE FOLLOWING FOUR LINES
+  // Location visited after installation is complete if installation is required
+  var MMPlayerType = (isIE == true) ? "ActiveX" : "PlugIn";
+  var MMredirectURL = window.location;
+    document.title = document.title.slice(0, 47) + " - Flash Player Installation";
+    var MMdoctitle = document.title;
+
+  AC_FL_RunContent(
+    "src", "playerProductInstall",
+    "FlashVars", "MMredirectURL="+MMredirectURL+'&MMplayerType='+MMPlayerType+'&MMdoctitle='+MMdoctitle+"",
+    "width", "100%",
+    "height", "100%",
+    "align", "middle",
+    "id", "emxLogin",
+    "quality", "high",
+    "bgcolor", "#869ca7",
+    "name", "emxLogin",
+    "allowScriptAccess","sameDomain",
+    "type", "application/x-shockwave-flash",
+    "pluginspage", "https://www.adobe.com/go/getflashplayer"
+  );
+} else if (hasRequestedVersion) {
+  // if we've detected an acceptable version
+  // embed the Flash Content SWF when all tests are passed
+  AC_FL_RunContent(
+      "src", "swf/emxLogin.swf",
+      "width", "100%",
+      "height", "100%",
+      "align", "middle",
+      "id", "emxLogin",
+      "quality", "high",
+      "bgcolor", "#869ca7",
+      "name", "emxLogin",
+                        "flashvars", flash_vars,
+      "allowScriptAccess","sameDomain",
+                        "wmode", "opaque",
+      "type", "application/x-shockwave-flash",
+      "pluginspage", "https://www.adobe.com/go/getflashplayer"
+  );
+  } else {  // flash is too old or we can't detect the plugin
+    var alternateContent = 'Alternate HTML content should be placed here. '
+    + 'This content requires the Adobe Flash Player. '
+    + '<a href=https://www.adobe.com/go/getflash/>Get Flash</a>';
+    document.write(alternateContent);   // insert non-flash content
+  }
+// -->
+</script>
+<script language="JavaScript" type="text/javascript">
+  function onFlexInitialized()
+  {
+    //alert("onFlexInitialized");
+    <!-- Force the browser to set flex app with focus -->
+    document.getElementById("${application}").focus();
+  }
+</script>
+<noscript>
+  <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+      id="emxLogin" width="100%" height="100%"
+    codebase="https://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab">
+  <param name="movie" value="swf/emxLogin.swf" />
+  <param name="quality" value="high" />
+  <param name="bgcolor" value="#869ca7" />
+  <param name="allowScriptAccess" value="sameDomain" />
+  <embed src="swf/emxLogin.swf" quality="high" bgcolor="#869ca7"
+    width="100%" height="100%" name="emxLogin" 
+                flashvars="em_express=true&isroot=0"
+                align="middle"
+    play="true"
+    loop="false"
+    quality="high"
+    allowScriptAccess="sameDomain"
+    type="application/x-shockwave-flash"
+    pluginspage="https://www.adobe.com/go/getflashplayer">
+  </embed>
+  </object>
+</noscript>
+</body>
+</html>

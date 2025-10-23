@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<link id="prism-css" rel="stylesheet"/>-->
+    <title>chatBot</title>
+</head>
+<body class="chatbot-body">
+    <!--<div class="shady-background"></div>-->
+    <div class="chatbot-container" id="chatbot-container" style="display: none;">
+        <div class="onboarding">
+            <div class="onboarding-rectangle">
+                <div class="message-wrapper first-message-wrapper"> 
+                    <div class="first-message">
+                        <h1>Chat with AI</h1>
+                        <p>Press Ctrl+Q and ask anything your heart desires.</p>
+                    </div>
+                    <div class="onboarding-flex">
+                        <div class="onboarding-step">
+                            <p>1/2</p>
+                        </div>
+                        <div class="onboarding-button">
+                            <p class="onboarding-button-text">Next</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="message-wrapper second-message-wrapper">
+                    <div class="second-message">
+                        <h1>Reference webpage</h1>
+                        <p>Type “/webpage” to reference the content on the current page.</p>
+                    </div>
+                    <!--<p class="second-message-tryitout"><span class="onboarding-highlight">Try it out!</span></p>-->
+                    <div class="onboarding-flex">
+                        <div class="onboarding-step">
+                            <p>2/2</p>
+                        </div>
+                        <div class="onboarding-button  end-onboarding">
+                            <p class="onboarding-button-text">Finish</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="onboarding-triangle"></div>
+        </div>
+        <div id="section1">
+            <div class="prompt-box-wrapper">
+                <!--<textarea class="prompt-box" style='display:none;' placeholder="Ask Gene about the highlighted text"></textarea>-->
+                <input type="text" class="prompt-box" placeholder="Ask Gene about the highlighted text"/>
+                <button class="screenshot-button">
+                    <img class="screenshot-icon"/>
+                </button>
+                <button class="search-button">
+                    <img class="submit-icon"/>
+                    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+                </button>
+            </div>
+            <div class="corner-drag-handle-wrapper">
+                <img class="corner-drag-handle"/>
+            </div>
+        </div>
+        <div id="section2">
+            <div class="conversation-wrapper">
+                <div class="conversation"></div>
+            </div>
+        </div>
+        <header id="section3">
+            <div class="header-item close-button">
+                <img class="header-icon close-icon"/>
+            </div>
+        </header>
+        <div id="section4">
+            <div class="slash-options">
+                <div class="slash-option"><p><span class="slash-title">/webpage</span><span>Reference current site</span></p></div>
+                <div class="slash-option"><p><span class="slash-title">/pdf</span><span>Reference PDF content</span></p></div>
+                <div class="slash-option"><p><span class="slash-title">/docs</span><span>Reference Google Docs content</span></p></div>
+                <div class="slash-option"><p><span class="slash-title">/video</span><span>Reference Youtube video</span></p></div>
+            </div>
+        </div>
+    </div>
+<!--<script id="prism-js"></script>-->
+</body>
+<!--<script type="module" src="chatBot.js"></script>-->
+</html>

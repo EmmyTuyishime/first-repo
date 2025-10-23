@@ -1,0 +1,793 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>R: Oracle R Enterprise Base Functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+<h1> Oracle R Enterprise Base Functions
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;OREbase&rsquo; version 1.5.1</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+<li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<p style="text-align: center;">
+<a href="# "> </a>
+<a href="#A">A</a>
+<a href="#B">B</a>
+<a href="#C">C</a>
+<a href="#D">D</a>
+<a href="#E">E</a>
+<a href="#F">F</a>
+<a href="#G">G</a>
+<a href="#H">H</a>
+<a href="#I">I</a>
+<a href="#L">L</a>
+<a href="#M">M</a>
+<a href="#N">N</a>
+<a href="#O">O</a>
+<a href="#P">P</a>
+<a href="#R">R</a>
+<a href="#S">S</a>
+<a href="#T">T</a>
+<a href="#U">U</a>
+<a href="#W">W</a>
+<a href="#X">X</a>
+<a href="#Z">Z</a>
+<a href="#misc">misc</a>
+</p>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="OREbase-package.html">OREbase-package</a></td>
+<td>Oracle R Enterprise Base Functions</td></tr>
+</table>
+
+<h2><a name="A">-- A --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.datetime-class.html">Arith-method</a></td>
+<td>Class 'ore.datetime'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">Arith-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">Arith-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">Arith-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.datetime-class.html">as.character-method</a></td>
+<td>Class 'ore.datetime'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">as.character-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">as.data.frame-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">as.data.frame-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">as.env</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">as.env-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.datetime-class.html">as.factor-method</a></td>
+<td>Class 'ore.datetime'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">as.factor-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">as.integer-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">as.list-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">as.logical-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">as.matrix-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">as.matrix-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">as.matrix-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">as.numeric-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore-method</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.character</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.character-method</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.datetime-class.html">as.ore.character-method</a></td>
+<td>Class 'ore.datetime'</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.date</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.date-method</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.datetime</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.datetime-method</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.difftime</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.difftime-method</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.factor</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.factor-method</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.frame</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.frame-method</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.integer</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.integer-method</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.logical</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.logical-method</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.matrix</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.matrix-method</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.numeric</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.numeric-method</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="as.ore.html">as.ore.vector</a></td>
+<td>Oracle R Enterprise Coercion Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">as.vector-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">atan2-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">atan2-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">attach-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+</table>
+
+<h2><a name="B">-- B --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">backsolve-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">besselI-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">besselI-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">besselJ-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">besselJ-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">besselK-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">besselK-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">besselY-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">besselY-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">by-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">by-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+</table>
+
+<h2><a name="C">-- C --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">c-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.character-class.html">casefold-method</a></td>
+<td>Class 'ore.character'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">cbind</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">cbind-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.character-class.html">chartr-method</a></td>
+<td>Class 'ore.character'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.datetime-class.html">coerce-method</a></td>
+<td>Class 'ore.datetime'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">coerce-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">coerce-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">colMeans-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">colMeans-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">colnames-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">colnames-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">colnames&lt;--method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">colnames&lt;--method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">colSums-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">colSums-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">Compare-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">Compare-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">crossprod-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">cut-method</a></td>
+<td>Class 'ore.number'</td></tr>
+</table>
+
+<h2><a name="D">-- D --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">data.frame</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">data.frame-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.datetime-class.html">diff-method</a></td>
+<td>Class 'ore.datetime'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">diff-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">dim-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">dim-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">dimnames-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">dimnames-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">dimnames&lt;--method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+</table>
+
+<h2><a name="E">-- E --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">eval</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">eval-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+</table>
+
+<h2><a name="F">-- F --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.number-class.html">factorial-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">forwardsolve-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+</table>
+
+<h2><a name="G">-- G --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.character-class.html">grepl-method</a></td>
+<td>Class 'ore.character'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.character-class.html">gsub-method</a></td>
+<td>Class 'ore.character'</td></tr>
+</table>
+
+<h2><a name="H">-- H --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">head-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">head-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+</table>
+
+<h2><a name="I">-- I --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">I-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.logical-class.html">ifelse-method</a></td>
+<td>Class 'ore.logical'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.factor-class.html">interaction</a></td>
+<td>Class 'ore.factor'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.factor-class.html">interaction-method</a></td>
+<td>Class 'ore.factor'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">interaction-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.factor-class.html">is.factor-method</a></td>
+<td>Class 'ore.factor'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">is.finite-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">is.finite-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">is.infinite-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">is.infinite-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">is.matrix-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">is.na-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">is.na-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">is.na-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">is.nan-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">is.nan-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="is.ore.html">is.ore</a></td>
+<td>Oracle R Enterprise Type Checking Functions</td></tr>
+<tr><td style="width: 25%;"><a href="is.ore.html">is.ore.character</a></td>
+<td>Oracle R Enterprise Type Checking Functions</td></tr>
+<tr><td style="width: 25%;"><a href="is.ore.html">is.ore.date</a></td>
+<td>Oracle R Enterprise Type Checking Functions</td></tr>
+<tr><td style="width: 25%;"><a href="is.ore.html">is.ore.datetime</a></td>
+<td>Oracle R Enterprise Type Checking Functions</td></tr>
+<tr><td style="width: 25%;"><a href="is.ore.html">is.ore.difftime</a></td>
+<td>Oracle R Enterprise Type Checking Functions</td></tr>
+<tr><td style="width: 25%;"><a href="is.ore.html">is.ore.factor</a></td>
+<td>Oracle R Enterprise Type Checking Functions</td></tr>
+<tr><td style="width: 25%;"><a href="is.ore.html">is.ore.frame</a></td>
+<td>Oracle R Enterprise Type Checking Functions</td></tr>
+<tr><td style="width: 25%;"><a href="is.ore.html">is.ore.integer</a></td>
+<td>Oracle R Enterprise Type Checking Functions</td></tr>
+<tr><td style="width: 25%;"><a href="is.ore.html">is.ore.logical</a></td>
+<td>Oracle R Enterprise Type Checking Functions</td></tr>
+<tr><td style="width: 25%;"><a href="is.ore.html">is.ore.matrix</a></td>
+<td>Oracle R Enterprise Type Checking Functions</td></tr>
+<tr><td style="width: 25%;"><a href="is.ore.html">is.ore.numeric</a></td>
+<td>Oracle R Enterprise Type Checking Functions</td></tr>
+<tr><td style="width: 25%;"><a href="is.ore.html">is.ore.vector</a></td>
+<td>Oracle R Enterprise Type Checking Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">is.vector-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+</table>
+
+<h2><a name="L">-- L --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">length-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">length-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.factor-class.html">levels-method</a></td>
+<td>Class 'ore.factor'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">lfactorial-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">log-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">log-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">log-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">logb-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">logb-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">logb-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">Logic-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.logical-class.html">Logic-method</a></td>
+<td>Class 'ore.logical'</td></tr>
+</table>
+
+<h2><a name="M">-- M --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">Math-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">Math-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">Math-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">max.col-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">max.col-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">mean-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">mean-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">merge-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+</table>
+
+<h2><a name="N">-- N --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">names-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">names-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">names&lt;--method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">names&lt;--method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.character-class.html">nchar-method</a></td>
+<td>Class 'ore.character'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">NCOL-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">NCOL-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">ncol-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">ncol-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.factor-class.html">nlevels-method</a></td>
+<td>Class 'ore.factor'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">NROW-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">NROW-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">nrow-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">nrow-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+</table>
+
+<h2><a name="O">-- O --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">order</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">order-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore-class.html">ore-class</a></td>
+<td>Class 'ore'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.attach.html">ore.attach</a></td>
+<td>Oracle R Enterprise Environment Management Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.character-class.html">ore.character</a></td>
+<td>Class 'ore.character'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.character-class.html">ore.character-class</a></td>
+<td>Class 'ore.character'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.connect.html">ore.connect</a></td>
+<td>Oracle R Enterprise Connection Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.const.html">ore.const</a></td>
+<td>Oracle R Enterprise Constants</td></tr>
+<tr><td style="width: 25%;"><a href="ore.create.html">ore.create</a></td>
+<td>Database Table Creation or Destruction Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.create.html">ore.create-method</a></td>
+<td>Database Table Creation or Destruction Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.datetime-class.html">ore.date</a></td>
+<td>Class 'ore.datetime'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.datetime-class.html">ore.date-class</a></td>
+<td>Class 'ore.datetime'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.datetime-class.html">ore.datetime</a></td>
+<td>Class 'ore.datetime'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.datetime-class.html">ore.datetime-class</a></td>
+<td>Class 'ore.datetime'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.attach.html">ore.detach</a></td>
+<td>Oracle R Enterprise Environment Management Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.datetime-class.html">ore.difftime</a></td>
+<td>Class 'ore.datetime'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.datetime-class.html">ore.difftime-class</a></td>
+<td>Class 'ore.datetime'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.connect.html">ore.disconnect</a></td>
+<td>Oracle R Enterprise Connection Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.create.html">ore.drop</a></td>
+<td>Database Table Creation or Destruction Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.options.html">ore.envAsEmptyenv</a></td>
+<td>Oracle R Enterprise Global Options</td></tr>
+<tr><td style="width: 25%;"><a href="ore.exec.html">ore.exec</a></td>
+<td>SQL Query Execution Function</td></tr>
+<tr><td style="width: 25%;"><a href="ore.exists.html">ore.exists</a></td>
+<td>Oracle R Enterprise Object Existence Checking Function</td></tr>
+<tr><td style="width: 25%;"><a href="ore.factor-class.html">ore.factor</a></td>
+<td>Class 'ore.factor'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.factor-class.html">ore.factor-class</a></td>
+<td>Class 'ore.factor'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">ore.frame</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">ore.frame-class</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.get.html">ore.get</a></td>
+<td>Oracle R Enterprise Object Retrieval Function</td></tr>
+<tr><td style="width: 25%;"><a href="ore.hash.html">ore.hash</a></td>
+<td>Oracle R Enterprise ore.vector Hash Function</td></tr>
+<tr><td style="width: 25%;"><a href="ore.hash.html">ore.hash-method</a></td>
+<td>Oracle R Enterprise ore.vector Hash Function</td></tr>
+<tr><td style="width: 25%;"><a href="ore.hiveOptions.html">ore.hiveOptions</a></td>
+<td>Set HIVE Options</td></tr>
+<tr><td style="width: 25%;"><a href="ore.year.html">ore.hour</a></td>
+<td>Oracle R Enterprise Date/Time Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.year.html">ore.hour-method</a></td>
+<td>Oracle R Enterprise Date/Time Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">ore.integer</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">ore.integer-class</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.connect.html">ore.is.connected</a></td>
+<td>Oracle R Enterprise Connection Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.logical-class.html">ore.logical</a></td>
+<td>Class 'ore.logical'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.logical-class.html">ore.logical-class</a></td>
+<td>Class 'ore.logical'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.ls.html">ore.ls</a></td>
+<td>Oracle R Enterprise Object Listing Function</td></tr>
+<tr><td style="width: 25%;"><a href="ore.make.names.html">ore.make.names</a></td>
+<td>Oracle R Enterprise Valid Column Name Generator</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">ore.matrix</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">ore.matrix-class</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.year.html">ore.mday</a></td>
+<td>Oracle R Enterprise Date/Time Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.year.html">ore.mday-method</a></td>
+<td>Oracle R Enterprise Date/Time Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.year.html">ore.minute</a></td>
+<td>Oracle R Enterprise Date/Time Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.year.html">ore.minute-method</a></td>
+<td>Oracle R Enterprise Date/Time Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.year.html">ore.month</a></td>
+<td>Oracle R Enterprise Date/Time Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.year.html">ore.month-method</a></td>
+<td>Oracle R Enterprise Date/Time Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.options.html">ore.na.extract</a></td>
+<td>Oracle R Enterprise Global Options</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">ore.number</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">ore.number-class</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">ore.numeric</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">ore.numeric-class</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.options.html">ore.options</a></td>
+<td>Oracle R Enterprise Global Options</td></tr>
+<tr><td style="width: 25%;"><a href="ore.options.html">ore.parallel</a></td>
+<td>Oracle R Enterprise Global Options</td></tr>
+<tr><td style="width: 25%;"><a href="ore.pull.html">ore.pull</a></td>
+<td>Oracle R Enterprise Data Exchange Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.pull.html">ore.pull-method</a></td>
+<td>Oracle R Enterprise Data Exchange Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.pull.html">ore.push</a></td>
+<td>Oracle R Enterprise Data Exchange Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.pull.html">ore.push-method</a></td>
+<td>Oracle R Enterprise Data Exchange Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.raw-class.html">ore.raw</a></td>
+<td>Class 'ore.raw'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.raw-class.html">ore.raw-class</a></td>
+<td>Class 'ore.raw'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.recode.html">ore.recode</a></td>
+<td>Oracle R Enterprise ore.vector Value Recode Function</td></tr>
+<tr><td style="width: 25%;"><a href="ore.recode.html">ore.recode-method</a></td>
+<td>Oracle R Enterprise ore.vector Value Recode Function</td></tr>
+<tr><td style="width: 25%;"><a href="ore.rm.html">ore.rm</a></td>
+<td>Oracle R Enterprise Object Removal Function</td></tr>
+<tr><td style="width: 25%;"><a href="ore.year.html">ore.second</a></td>
+<td>Oracle R Enterprise Date/Time Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.year.html">ore.second-method</a></td>
+<td>Oracle R Enterprise Date/Time Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.options.html">ore.sep</a></td>
+<td>Oracle R Enterprise Global Options</td></tr>
+<tr><td style="width: 25%;"><a href="ore.showHiveOptions.html">ore.showHiveOptions</a></td>
+<td>Show HIVE Options</td></tr>
+<tr><td style="width: 25%;"><a href="ore.sync.html">ore.sync</a></td>
+<td>Oracle R Enterprise Object Synchronization Function</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">ore.tblmatrix</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">ore.tblmatrix-class</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.options.html">ore.trace</a></td>
+<td>Oracle R Enterprise Global Options</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">ore.vecmatrix</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">ore.vecmatrix-class</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">ore.vector</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">ore.vector-class</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.options.html">ore.warn.order</a></td>
+<td>Oracle R Enterprise Global Options</td></tr>
+<tr><td style="width: 25%;"><a href="ore.year.html">ore.year</a></td>
+<td>Oracle R Enterprise Date/Time Functions</td></tr>
+<tr><td style="width: 25%;"><a href="ore.year.html">ore.year-method</a></td>
+<td>Oracle R Enterprise Date/Time Functions</td></tr>
+<tr><td style="width: 25%;"><a href="OREbase-package.html">OREbase</a></td>
+<td>Oracle R Enterprise Base Functions</td></tr>
+</table>
+
+<h2><a name="P">-- P --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.character-class.html">paste</a></td>
+<td>Class 'ore.character'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.character-class.html">paste-method</a></td>
+<td>Class 'ore.character'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">pmax</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">pmax-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">pmin</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">pmin-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+</table>
+
+<h2><a name="R">-- R --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">rank-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">rbind</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">rbind-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">round-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">round-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">round-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">row.names-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">row.names&lt;--method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">rowMeans-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">rowMeans-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">rownames-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">rownames-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">rownames&lt;--method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">rownames&lt;--method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">rowSums-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">rowSums-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+</table>
+
+<h2><a name="S">-- S --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">scale-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">scale-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">scale-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">show-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">show-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">show-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">solve-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">sort-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">split-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">split-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.character-class.html">sub-method</a></td>
+<td>Class 'ore.character'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">subset-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.character-class.html">substr-method</a></td>
+<td>Class 'ore.character'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.character-class.html">substring-method</a></td>
+<td>Class 'ore.character'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">Summary-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">Summary-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">Summary-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.datetime-class.html">summary-method</a></td>
+<td>Class 'ore.datetime'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.factor-class.html">summary-method</a></td>
+<td>Class 'ore.factor'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">summary-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">summary-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">summary-method</a></td>
+<td>Class 'ore.number'</td></tr>
+</table>
+
+<h2><a name="T">-- T --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">t-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">table</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">table-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">tabulate-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.number-class.html">tabulate-method</a></td>
+<td>Class 'ore.number'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">tail-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">tail-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">tapply-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">tcrossprod-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.character-class.html">tolower-method</a></td>
+<td>Class 'ore.character'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.character-class.html">toupper-method</a></td>
+<td>Class 'ore.character'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">transform-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.datetime-class.html">trunc-method</a></td>
+<td>Class 'ore.datetime'</td></tr>
+</table>
+
+<h2><a name="U">-- U --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">unique-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">unique-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">unlist-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+</table>
+
+<h2><a name="W">-- W --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">with-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">within-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+</table>
+
+<h2><a name="X">-- X --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">xor-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.logical-class.html">xor-method</a></td>
+<td>Class 'ore.logical'</td></tr>
+</table>
+
+<h2><a name="Z">-- Z --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.number-class.html">zapsmall-method</a></td>
+<td>Class 'ore.number'</td></tr>
+</table>
+
+<h2><a name="misc">-- misc --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">!-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.logical-class.html">!-method</a></td>
+<td>Class 'ore.logical'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">$-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">$&lt;--method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">%*%-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">%in%-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">[-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.matrix-class.html">[-method</a></td>
+<td>Class 'ore.matrix'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">[-method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">[&lt;--method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.vector-class.html">[&lt;--method</a></td>
+<td>Class 'ore.vector'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">[[-method</a></td>
+<td>Class 'ore.frame'</td></tr>
+<tr><td style="width: 25%;"><a href="ore.frame-class.html">[[&lt;--method</a></td>
+<td>Class 'ore.frame'</td></tr>
+</table>
+</body></html>

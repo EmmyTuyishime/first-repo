@@ -1,0 +1,66 @@
+<!--nigUWL3wEz5a3cPCzMgVbrQ+p7YccSnYUUzF2D8grbL7+d9Dz/tUQLRP3CsyWW4adNAOx04I8LCwFlPIVwc4GHHpGbGZ8pa5EC6zy4t7JTvjA3wWmYNH3QKaJj7U1lUbvNkUe8iNciGiRNcVwGTk/CUNyI7YM5betKinMjtdKh0+lF9rkyWHxegz0li9zcuYNZTHDjG4R7N7kKSaaBWG7ho+38W5/omY5aQzSN2OykPmEDFjhUmswlCNhfPQ9Et1EJctIx2gU0oJHVZDW7MxTgMW9Xyzn2jRli/Oe54dGj2ZHIeub1apBp349BvLs2ByCky8Ed9JO5FNVvlbb8hycA==--><!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>loading</title>
+  <link rel="stylesheet" type="text/css" href="./css/dlgclient.css" media="all" />
+</head>
+
+<body>
+  <img id="close-icon" class="close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAI5JREFUOE9jZKAQMML0Ozg4sBw4cOAPMeYhqwUbABL4zizV++cf87Kz+xefxGeIsWOsOQvT3yjOv8+KQRbCXQCSYGL8G//vP/NCXIZgUwM3AGQrPkNwyaEYgMsQfAZjGIBuCIiPz2tYDUA2BMTGFy60MQDZzyR7AVuAER2IFEUjRQmJKkmZosxETA7EpQYAMFW4EbFHImEAAAAASUVORK5CYII=" alt="">
+  <div class="loading-wrapper">
+    <img class="loading-gif" src="./icon/loading-gif.gif" alt="" />
+    <div class="loading-text"></div>
+  </div>
+</body>
+<script>
+  const langJson = {
+    'en-US': 'Loading...',
+    'de-DE': 'Ladevorgang läuft...',
+    'es-ES': 'Cargando...',
+    'es-MX': 'Cargando...',
+    'fr-FR': 'Chargement...',
+    'id-ID': 'Memuatkan...',
+    'ja-JP': '読み込み中',
+    'pl-PL': 'Ładowanie...',
+    'pt-BR': 'Carregando...',
+    'pt-PT': 'A carregar...',
+    'ru-RU': 'Загрузка...',
+    'th-TH': 'กำลังโหลด...',
+    'tr-TR': 'Yükleniyor...',
+    'zh-HK': '載入中…',
+    'zh-CN': '加载中...',
+  };
+  // 获取url多语言
+  function getQueryString(name, url) {
+    const pattern = new RegExp(`[\\?&#]${name}=([^&#]+)`, 'gi');
+    const ma = (url || location.search).match(pattern);
+    let strArr;
+    if (ma && ma.length > 0) {
+      strArr = ma[ma.length - 1].split('=');
+      if (strArr && strArr.length > 1) {
+        return strArr[1];
+      }
+      return '';
+    }
+    return '';
+  };
+
+  function setLoadingI18n() {
+    const lang = getQueryString('lang') || 'en-US'; // 默认语言为英文
+    const formatLang = lang.split('_').join('-'); // 处理可能的语言变体
+    console.log('Loading language:', formatLang);
+    document.querySelector('.loading-text').innerText = langJson[formatLang] || langJson['en_US'];
+  }
+
+  setLoadingI18n();
+
+  const closeEl = document.getElementById('close-icon');
+  closeEl.onclick = function() {
+    window.cefQuery({
+      request: 'jsAsynCall(' + JSON.stringify({ method: 'closeWindow', params: {} }) + ')'
+    });
+  }
+</script>
+</html>

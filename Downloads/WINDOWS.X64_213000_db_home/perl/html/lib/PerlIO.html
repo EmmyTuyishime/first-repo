@@ -1,0 +1,308 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>PerlIO - On demand loader for PerlIO layers and root of PerlIO::* name space</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr><td class="_podblock_" style="background-color: #cccccc; color: #000" valign="middle">
+<big><strong><span class="_podblock_">&nbsp;PerlIO - On demand loader for PerlIO layers and root of PerlIO::* name space</span></strong></big>
+</td></tr>
+</table>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a>
+    <ul>
+      <li><a href="#Layers">Layers</a></li>
+      <li><a href="#Custom-Layers">Custom Layers</a></li>
+      <li><a href="#Alternatives-to-raw">Alternatives to raw</a></li>
+      <li><a href="#Defaults-and-how-to-override-them">Defaults and how to override them</a></li>
+      <li><a href="#Querying-the-layers-of-filehandles">Querying the layers of filehandles</a></li>
+    </ul>
+  </li>
+  <li><a href="#AUTHOR">AUTHOR</a></li>
+  <li><a href="#SEE-ALSO">SEE ALSO</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>PerlIO - On demand loader for PerlIO layers and root of PerlIO::* name space</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<pre><code>  # support platform-native and CRLF text files
+  open(my $fh, &quot;&lt;:crlf&quot;, &quot;my.txt&quot;) or die &quot;open failed: $!&quot;;
+
+  # append UTF-8 encoded text
+  open(my $fh, &quot;&gt;&gt;:encoding(UTF-8)&quot;, &quot;some.log&quot;)
+    or die &quot;open failed: $!&quot;;
+
+  # portably open a binary file for reading
+  open(my $fh, &quot;&lt;&quot;, &quot;his.jpg&quot;) or die &quot;open failed: $!&quot;;
+  binmode($fh) or die &quot;binmode failed: $!&quot;;
+
+  Shell:
+    PERLIO=:perlio perl ....</code></pre>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>When an undefined layer &#39;foo&#39; is encountered in an <code>open</code> or <code>binmode</code> layer specification then C code performs the equivalent of:</p>
+
+<pre><code>  use PerlIO &#39;foo&#39;;</code></pre>
+
+<p>The Perl code in PerlIO.pm then attempts to locate a layer by doing</p>
+
+<pre><code>  require PerlIO::foo;</code></pre>
+
+<p>Otherwise the <code>PerlIO</code> package is a place holder for additional PerlIO related functions.</p>
+
+<h2 id="Layers">Layers</h2>
+
+<p>Generally speaking, PerlIO layers (previously sometimes referred to as &quot;disciplines&quot;) are an ordered stack applied to a filehandle (specified as a space- or colon-separated list, conventionally written with a leading colon). Each layer performs some operation on any input or output, except when bypassed such as with <code>sysread</code> or <code>syswrite</code>. Read operations go through the stack in the order they are set (left to right), and write operations in the reverse order.</p>
+
+<p>There are also layers which actually just set flags on lower layers, or layers that modify the current stack but don&#39;t persist on the stack themselves; these are referred to as pseudo-layers.</p>
+
+<p>When opening a handle, it will be opened with any layers specified explicitly in the open() call (or the platform defaults, if specified as a colon with no following layers).</p>
+
+<p>If layers are not explicitly specified, the handle will be opened with the layers specified by the <a href="file:/c|/perl/html/pod/perlvar.html#OPEN">${^OPEN}</a> variable (usually set by using the <a href="file:/c|/perl/html/lib/open.html">open</a> pragma for a lexical scope, or the <code>-C</code> command-line switch or <code>PERL_UNICODE</code> environment variable for the main program scope).</p>
+
+<p>If layers are not specified in the open() call or <code>${^OPEN}</code> variable, the handle will be opened with the default layer stack configured for that architecture; see <a href="#Defaults-and-how-to-override-them">&quot;Defaults and how to override them&quot;</a>.</p>
+
+<p>Some layers will automatically insert required lower level layers if not present; for example <code>:perlio</code> will insert <code>:unix</code> below itself for low level IO, and <code>:encoding</code> will insert the platform defaults for buffered IO.</p>
+
+<p>The <code>binmode</code> function can be called on an opened handle to push additional layers onto the stack, which may also modify the existing layers. <code>binmode</code> called with no layers will remove or unset any existing layers which transform the byte stream, making the handle suitable for binary data.</p>
+
+<p>The following layers are currently defined:</p>
+
+<dl>
+
+<dt id="unix">:unix</dt>
+<dd>
+
+<p>Lowest level layer which provides basic PerlIO operations in terms of UNIX/POSIX numeric file descriptor calls (open(), read(), write(), lseek(), close()). It is used even on non-Unix architectures, and most other layers operate on top of it.</p>
+
+</dd>
+<dt id="stdio">:stdio</dt>
+<dd>
+
+<p>Layer which calls <code>fread</code>, <code>fwrite</code> and <code>fseek</code>/<code>ftell</code> etc. Note that as this is &quot;real&quot; stdio it will ignore any layers beneath it and go straight to the operating system via the C library as usual. This layer implements both low level IO and buffering, but is rarely used on modern architectures.</p>
+
+</dd>
+<dt id="perlio">:perlio</dt>
+<dd>
+
+<p>A from scratch implementation of buffering for PerlIO. Provides fast access to the buffer for <code>sv_gets</code> which implements Perl&#39;s readline/&lt;&gt; and in general attempts to minimize data copying.</p>
+
+<p><code>:perlio</code> will insert a <code>:unix</code> layer below itself to do low level IO.</p>
+
+</dd>
+<dt id="crlf">:crlf</dt>
+<dd>
+
+<p>A layer that implements DOS/Windows like CRLF line endings. On read converts pairs of CR,LF to a single &quot;\n&quot; newline character. On write converts each &quot;\n&quot; to a CR,LF pair. Note that this layer will silently refuse to be pushed on top of itself.</p>
+
+<p>It currently does <i>not</i> mimic MS-DOS as far as treating of Control-Z as being an end-of-file marker.</p>
+
+<p>On DOS/Windows like architectures where this layer is part of the defaults, it also acts like the <code>:perlio</code> layer, and removing the CRLF translation (such as with <code>:raw</code>) will only unset the CRLF translation flag. Since Perl 5.14, you can also apply another <code>:crlf</code> layer later, such as when the CRLF translation must occur after an encoding layer. On other architectures, it is a mundane CRLF translation layer and can be added and removed normally.</p>
+
+<pre><code>    # translate CRLF after encoding on Perl 5.14 or newer
+    binmode $fh, &quot;:raw:encoding(UTF-16LE):crlf&quot;
+      or die &quot;binmode failed: $!&quot;;</code></pre>
+
+</dd>
+<dt id="utf8">:utf8</dt>
+<dd>
+
+<p>Pseudo-layer that declares that the stream accepts Perl&#39;s <i>internal</i> upgraded encoding of characters, which is approximately UTF-8 on ASCII machines, but UTF-EBCDIC on EBCDIC machines. This allows any character Perl can represent to be read from or written to the stream.</p>
+
+<p>This layer (which actually sets a flag on the preceding layer, and is implicitly set by any <code>:encoding</code> layer) does not translate or validate byte sequences. It instead indicates that the byte stream will have been arranged by other layers to be provided in Perl&#39;s internal upgraded encoding, which Perl code (and correctly written XS code) will interpret as decoded Unicode characters.</p>
+
+<p><b>CAUTION</b>: Do not use this layer to translate from UTF-8 bytes, as invalid UTF-8 or binary data will result in malformed Perl strings. It is unlikely to produce invalid UTF-8 when used for output, though it will instead produce UTF-EBCDIC on EBCDIC systems. The <code>:encoding(UTF-8)</code> layer (hyphen is significant) is preferred as it will ensure translation between valid UTF-8 bytes and valid Unicode characters.</p>
+
+</dd>
+<dt id="bytes">:bytes</dt>
+<dd>
+
+<p>This is the inverse of the <code>:utf8</code> pseudo-layer. It turns off the flag on the layer below so that data read from it is considered to be Perl&#39;s internal downgraded encoding, thus interpreted as the native single-byte encoding of Latin-1 or EBCDIC. Likewise on output Perl will warn if a &quot;wide&quot; character (a codepoint not in the range 0..255) is written to a such a stream.</p>
+
+<p>This is very dangerous to push on a handle using an <code>:encoding</code> layer, as such a layer assumes to be working with Perl&#39;s internal upgraded encoding, so you will likely get a mangled result. Instead use <code>:raw</code> or <code>:pop</code> to remove encoding layers.</p>
+
+</dd>
+<dt id="raw">:raw</dt>
+<dd>
+
+<p>The <code>:raw</code> pseudo-layer is <i>defined</i> as being identical to calling <code>binmode($fh)</code> - the stream is made suitable for passing binary data, i.e. each byte is passed as-is. The stream will still be buffered (but this was not always true before Perl 5.14).</p>
+
+<p>In Perl 5.6 and some books the <code>:raw</code> layer is documented as the inverse of the <code>:crlf</code> layer. That is no longer the case - other layers which would alter the binary nature of the stream are also disabled. If you want UNIX line endings on a platform that normally does CRLF translation, but still want UTF-8 or encoding defaults, the appropriate thing to do is to add <code>:perlio</code> to the PERLIO environment variable, or open the handle explicitly with that layer, to replace the platform default of <code>:crlf</code>.</p>
+
+<p>The implementation of <code>:raw</code> is as a pseudo-layer which when &quot;pushed&quot; pops itself and then any layers which would modify the binary data stream. (Undoing <code>:utf8</code> and <code>:crlf</code> may be implemented by clearing flags rather than popping layers but that is an implementation detail.)</p>
+
+<p>As a consequence of the fact that <code>:raw</code> normally pops layers, it usually only makes sense to have it as the only or first element in a layer specification. When used as the first element it provides a known base on which to build e.g.</p>
+
+<pre><code>    open(my $fh,&quot;&gt;:raw:encoding(UTF-8)&quot;,...)
+      or die &quot;open failed: $!&quot;;</code></pre>
+
+<p>will construct a &quot;binary&quot; stream regardless of the platform defaults, but then enable UTF-8 translation.</p>
+
+</dd>
+<dt id="pop">:pop</dt>
+<dd>
+
+<p>A pseudo-layer that removes the top-most layer. Gives Perl code a way to manipulate the layer stack. Note that <code>:pop</code> only works on real layers and will not undo the effects of pseudo-layers or flags like <code>:utf8</code>. An example of a possible use might be:</p>
+
+<pre><code>    open(my $fh,...) or die &quot;open failed: $!&quot;;
+    ...
+    binmode($fh,&quot;:encoding(...)&quot;) or die &quot;binmode failed: $!&quot;;
+    # next chunk is encoded
+    ...
+    binmode($fh,&quot;:pop&quot;) or die &quot;binmode failed: $!&quot;;
+    # back to un-encoded</code></pre>
+
+<p>A more elegant (and safer) interface is needed.</p>
+
+</dd>
+<dt id="win32">:win32</dt>
+<dd>
+
+<p>On Win32 platforms this <i>experimental</i> layer uses the native &quot;handle&quot; IO rather than the unix-like numeric file descriptor layer. Known to be buggy as of Perl 5.8.2.</p>
+
+</dd>
+</dl>
+
+<h2 id="Custom-Layers">Custom Layers</h2>
+
+<p>It is possible to write custom layers in addition to the above builtin ones, both in C/XS and Perl, as a module named <code>PerlIO::&lt;layer name&gt;</code>. Some custom layers come with the Perl distribution.</p>
+
+<dl>
+
+<dt id="encoding">:encoding</dt>
+<dd>
+
+<p>Use <code>:encoding(ENCODING)</code> to transparently do character set and encoding transformations, for example from Shift-JIS to Unicode. Note that an <code>:encoding</code> also enables <code>:utf8</code>. See <a href="file:/c|/perl/html/lib/PerlIO/encoding.html">PerlIO::encoding</a> for more information.</p>
+
+</dd>
+<dt id="mmap">:mmap</dt>
+<dd>
+
+<p>A layer which implements &quot;reading&quot; of files by using <code>mmap()</code> to make a (whole) file appear in the process&#39;s address space, and then using that as PerlIO&#39;s &quot;buffer&quot;. This <i>may</i> be faster in certain circumstances for large files, and may result in less physical memory use when multiple processes are reading the same file.</p>
+
+<p>Files which are not <code>mmap()</code>-able revert to behaving like the <code>:perlio</code> layer. Writes also behave like the <code>:perlio</code> layer, as <code>mmap()</code> for write needs extra house-keeping (to extend the file) which negates any advantage.</p>
+
+<p>The <code>:mmap</code> layer will not exist if the platform does not support <code>mmap()</code>. See <a href="file:/c|/perl/html/lib/PerlIO/mmap.html">PerlIO::mmap</a> for more information.</p>
+
+</dd>
+<dt id="via">:via</dt>
+<dd>
+
+<p><code>:via(MODULE)</code> allows a transformation to be applied by an arbitrary Perl module, for example compression / decompression, encryption / decryption. See <a href="file:/c|/perl/html/lib/PerlIO/via.html">PerlIO::via</a> for more information.</p>
+
+</dd>
+<dt id="scalar">:scalar</dt>
+<dd>
+
+<p>A layer implementing &quot;in memory&quot; files using scalar variables, automatically used in place of the platform defaults for IO when opening such a handle. As such, the scalar is expected to act like a file, only containing or storing bytes. See <a href="file:/c|/perl/html/lib/PerlIO/scalar.html">PerlIO::scalar</a> for more information.</p>
+
+</dd>
+</dl>
+
+<h2 id="Alternatives-to-raw">Alternatives to raw</h2>
+
+<p>To get a binary stream an alternate method is to use:</p>
+
+<pre><code>    open(my $fh,&quot;&lt;&quot;,&quot;whatever&quot;) or die &quot;open failed: $!&quot;;
+    binmode($fh) or die &quot;binmode failed: $!&quot;;</code></pre>
+
+<p>This has the advantage of being backward compatible with older versions of Perl that did not use PerlIO or where <code>:raw</code> was buggy (as it was before Perl 5.14).</p>
+
+<p>To get an unbuffered stream specify an unbuffered layer (e.g. <code>:unix</code>) in the open call:</p>
+
+<pre><code>    open(my $fh,&quot;&lt;:unix&quot;,$path) or die &quot;open failed: $!&quot;;</code></pre>
+
+<h2 id="Defaults-and-how-to-override-them">Defaults and how to override them</h2>
+
+<p>If the platform is MS-DOS like and normally does CRLF to &quot;\n&quot; translation for text files then the default layers are:</p>
+
+<pre><code>  :unix:crlf</code></pre>
+
+<p>Otherwise if <code>Configure</code> found out how to do &quot;fast&quot; IO using the system&#39;s stdio (not common on modern architectures), then the default layers are:</p>
+
+<pre><code>  :stdio</code></pre>
+
+<p>Otherwise the default layers are</p>
+
+<pre><code>  :unix:perlio</code></pre>
+
+<p>Note that the &quot;default stack&quot; depends on the operating system and on the Perl version, and both the compile-time and runtime configurations of Perl. The default can be overridden by setting the environment variable PERLIO to a space or colon separated list of layers, however this cannot be used to set layers that require loading modules like <code>:encoding</code>.</p>
+
+<p>This can be used to see the effect of/bugs in the various layers e.g.</p>
+
+<pre><code>  cd .../perl/t
+  PERLIO=:stdio  ./perl harness
+  PERLIO=:perlio ./perl harness</code></pre>
+
+<p>For the various values of PERLIO see <a href="file:/c|/perl/html/pod/perlrun.html#PERLIO">&quot;PERLIO&quot; in perlrun</a>.</p>
+
+<p>The following table summarizes the default layers on UNIX-like and DOS-like platforms and depending on the setting of <code>$ENV{PERLIO}</code>:</p>
+
+<pre><code> PERLIO     UNIX-like                   DOS-like
+ ------     ---------                   --------
+ unset / &quot;&quot; :unix:perlio / :stdio [1]   :unix:crlf
+ :stdio     :stdio                      :stdio
+ :perlio    :unix:perlio                :unix:perlio
+
+ # [1] &quot;:stdio&quot; if Configure found out how to do &quot;fast stdio&quot; (depends
+ # on the stdio implementation) and in Perl 5.8, else &quot;:unix:perlio&quot;</code></pre>
+
+<h2 id="Querying-the-layers-of-filehandles">Querying the layers of filehandles</h2>
+
+<p>The following returns the <b>names</b> of the PerlIO layers on a filehandle.</p>
+
+<pre><code>   my @layers = PerlIO::get_layers($fh); # Or FH, *FH, &quot;FH&quot;.</code></pre>
+
+<p>The layers are returned in the order an open() or binmode() call would use them, and without colons.</p>
+
+<p>By default the layers from the input side of the filehandle are returned; to get the output side, use the optional <code>output</code> argument:</p>
+
+<pre><code>   my @layers = PerlIO::get_layers($fh, output =&gt; 1);</code></pre>
+
+<p>(Usually the layers are identical on either side of a filehandle but for example with sockets there may be differences.)</p>
+
+<p>There is no set_layers(), nor does get_layers() return a tied array mirroring the stack, or anything fancy like that. This is not accidental or unintentional. The PerlIO layer stack is a bit more complicated than just a stack (see for example the behaviour of <code>:raw</code>). You are supposed to use open() and binmode() to manipulate the stack.</p>
+
+<p><b>Implementation details follow, please close your eyes.</b></p>
+
+<p>The arguments to layers are by default returned in parentheses after the name of the layer, and certain layers (like <code>:utf8</code>) are not real layers but instead flags on real layers; to get all of these returned separately, use the optional <code>details</code> argument:</p>
+
+<pre><code>   my @layer_and_args_and_flags = PerlIO::get_layers($fh, details =&gt; 1);</code></pre>
+
+<p>The result will be up to be three times the number of layers: the first element will be a name, the second element the arguments (unspecified arguments will be <code>undef</code>), the third element the flags, the fourth element a name again, and so forth.</p>
+
+<p><b>You may open your eyes now.</b></p>
+
+<h1 id="AUTHOR">AUTHOR</h1>
+
+<p>Nick Ing-Simmons &lt;nick@ing-simmons.net&gt;</p>
+
+<h1 id="SEE-ALSO">SEE ALSO</h1>
+
+<p><a href="file:/c|/perl/html/pod/perlfunc.html#binmode">&quot;binmode&quot; in perlfunc</a>, <a href="file:/c|/perl/html/pod/perlfunc.html#open">&quot;open&quot; in perlfunc</a>, <a href="file:/c|/perl/html/pod/perlunicode.html">perlunicode</a>, <a href="file:/c|/perl/html/pod/perliol.html">perliol</a>, <a href="file:/c|/perl/html/lib/Encode.html">Encode</a></p>
+
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr><td class="_podblock_" style="background-color: #cccccc; color: #000" valign="middle">
+<big><strong><span class="_podblock_">&nbsp;PerlIO - On demand loader for PerlIO layers and root of PerlIO::* name space</span></strong></big>
+</td></tr>
+</table>
+
+</body>
+
+</html>
+
+

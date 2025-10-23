@@ -1,0 +1,61 @@
+<!--BjczW0AVRcxoPktK07iFCBc2uyjsSdFqtEFU0K55jkgukSzhMn0+kNSC3z8EYmRtCo+e/B5RmSYaE5egrw0bNSPdxhSzqnVAneNw8chDh4kaDTDHJ/f08EkI5gUJpluu6HX/Qxngkf/4mLBKaSakNxHzprlQIDI4p1F/8TxCXB+ul/Y6gXoYr9mgBDg1gH6NYxZvlfFfX4SCjeYS12tqqKIZ0gdvqdqT3wrJZPFKdHzlwdLUYqvMK/mHQWT3YFe6sKqn91sEl0JUTZdpbDVZ3oMj4pGRFOYoSafIbyPD10IHspbYDkmuRMgAdOY0EZXFVjcZ6T+bvucf86Ecb1l+zg==--><!DOCTYPE html><html><head>
+    <meta charset="utf-8">
+    <!-- APM-预采集 -->
+    <script>!function(n,e,r){var o=arguments.length>3&&void 0!==arguments[3]?arguments[3]:"APM",i="PreCollect",t="APM_PC",c="addEventListener",l="removeEventListener",u=!1,a=function(n){return i+n},f=function(e){if(n[t]){for(var r=arguments.length,o=new Array(r>1?r-1:0),c=1;c<r;c++)o[c-1]=arguments[c];e===i?n[t].plugin.push(Array.prototype.concat(o,[Date.now(),location.href])):n[t].hook.push([e].concat(o))}};function d(n){f("setConfig",n)}n[o]={__CUSTOM__:!0},n[t]={},n[t].hook=[],n[t].plugin=[],n[t].listener={},n[t].onReady=C,n[o].init=function(n){var e,r,o,t;if(!u){u=!0;var c=null==n||null===(e=n.pluginConfig)||void 0===e||null===(r=e.vue)||void 0===r?void 0:r.vue,l=null==n||null===(o=n.pluginConfig)||void 0===o||null===(t=o.vue)||void 0===t?void 0:t.app,d=function(n){n.config={};n.config._isPreCollect=!0,n.config._errorHandler=n.config.errorHandler,n.config.errorHandler=function(n,e,r){f(i,a("Vue"),n,e,r)}};c&&d(c),l&&(Array.isArray(l)?l:[l]).forEach((function(n){return d(n)})),f("init",n)}};var g=d;n[o].setConfig=function(n){g.call(this,n)};var s={};function v(n){var e=Object.create(function(){var e={};return["debug","info","warn","error"].forEach((function(r){e[r]=function(){for(var e=arguments.length,o=new Array(e),t=0;t<e;t++)o[t]=arguments[t];f.apply(void 0,[i,a("BusinessLoggerPlugin"),n,r].concat(o))}})),e}());return s[n]=e,e}var _=v;function h(n){f(i,a("CaptureException"),p,n)}n[o].getLogger=function(n){return _.call(this,n)};var p=h;function E(){f=function(){},n[l]("error",n[t].listener.error,!0),n[l]("unhandledrejection",n[t].listener.unhandledrejection,!0),delete n[t]}function C(){n[o].__CUSTOM__||(g=n[o].setConfig.bind(n[o]),_=n[o].getLogger.bind(n[o]),p=n[o].captureException.bind(n[o]),Object.keys(s).forEach((function(e){s[e].__proto__=n[o].getLogger(e)})))}n[o].captureException=function(n){p.call(this,n)},c in n&&(n[t].listener.error=function(e){var o=(e=e||n.event).target||e.srcElement;if(o instanceof Element||o instanceof HTMLElement){if("script"===o.localName&&o.src.indexOf(r)>=0)return void E();f(i,a("WindowSourceError"),e)}else f(i,a("WindowOnError"),e.error,e.filename,e.lineno,e.colno)},n[t].listener.unhandledrejection=function(e){e=e||n.event,f(i,a("WindowUnhandledRejection"),e.reason)},n[c]("error",n[t].listener.error,!0),n[c]("unhandledrejection",n[t].listener.unhandledrejection,!0))}(window,document,"https://fe-static.wpscdn.cn/apm_sdk_proxy/client-wps-pc.entry.v2.min.js");</script>
+    <!-- End APM-预采集 -->
+    <script type="module" crossorigin="" src="./index.js" integrity="sha384-KXr9YRY9chht8jV/W17bZltLHjK9bAGSRb9/Ut19VFS/wzON53IO5nZJvrO2MpU+"></script>
+    <link rel="stylesheet" crossorigin="" href="./assets/index.css" integrity="sha384-cm7UCO/Ot6t+zxXNsdqjPHR/+aXFuzPVzvaTkEUbw6AT4btc8vGesE+Jg021byiL">
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- APM-SDK -->
+    <script src="https://fe-static.wpscdn.cn/apm_sdk_proxy/client-wps-pc.entry.v2.min.js?appId=71ejLqVk&amp;appName=kwebwps_startpage_search&amp;appVersion=1.0.0" integrity="sha384-uWlOW3u8FQWIP0C/ovGJTOH5ZPxqiIYhFP+o3PQzXtfp78Fp/XxWCaPu9169vrGE" crossorigin="anonymous" defer=""></script>
+    <!-- APM-SDK -->
+    <script type="text/javascript">
+      window.APM && window.APM.init({
+        // 应用ID，必填
+        appId: '71ejLqVk',
+        // 业务名称，必填
+        appName: 'kwebwps_startpage_search',
+        // 业务版本号
+        appVersion: '1.0.0',
+        // 采样率
+        samplingRate: 1000,
+        // 插件名称 @todo 端内插件场景下需要填写
+        // pluginName: 'xxx-plugin',
+        // 是否开启debug模式，是则在控制台输出日志
+        isDebug: false,
+        // 用户userId @todo 如刚引入无法提供userID，可见下述方式处理
+        // accountId: 'xxxx',
+        // 插件配置 - 开关策略、采样率
+        pluginConfig: {
+          // 性能插件配置
+          performance: { switch: true, },
+          // 业务日志插件配置
+          businessLogger: { switch: true },
+          // vue框架错误捕获插件
+          vue: { switch: true, app: app },
+          // js异常错误捕获插件
+          windowOnError: { switch: true },
+          // web资源异常捕获插件
+          windowSourceError: { switch: true },
+          // promise异常捕获插件
+          windowUnhandledRejection: { switch: true },
+          // 资源慢加载捕获插件
+          source: {
+            switch: true,
+            threshold: 3000,
+            ignoreUrls: []
+          },
+          // 请求捕获插件
+          request: {
+            switch: true,
+            threshold: 3000,
+            ignoreUrls: []
+          },
+        }
+      })
+    </script>
+  
+
+</body></html>

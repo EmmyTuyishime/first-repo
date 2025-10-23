@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<head>
+    <script src="https://unpkg.com/vue@3.5.21"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=cancel,check_circle,delete_forever,error,pending,progress_activity,visibility,visibility_off" />
+    <style>
+        :root {
+            --primary-1: #027e6f;
+            --primary-2: #016a5e;
+            --bg-1: #565b6c;
+            --bg-2: #27282e;
+            --bg-3: #161719;
+            --green: #2cc9b6;
+            --red: #f62a57;
+            --blue: #4c7af0;
+            --purple: #ae65d5;
+            --grey: #707070;
+        }
+
+        body {
+            background: transparent;
+            font-family: Inter, system-ui, sans-serif;
+            padding: 8px;
+            margin: 0;
+            color: white;
+            font-size: 14px;
+        }
+
+        .queue {
+            background: var(--bg-3);
+            border: 1.5px solid var(--bg-1);
+            border-radius: 14px;
+            margin-bottom: 5px;
+            height: 100px;
+            display: grid;
+            grid-template-rows: auto 1fr;
+            width: calc(100% - 16px);
+            overflow: auto;
+        }
+
+        .iconButton {
+            background: var(--bg-2);
+            cursor: pointer;
+            padding: 3px;
+            border-radius: 10px;
+            border: 1px solid var(--bg-1);
+            height: 25px;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .jobs {
+            display: flex;
+            width: calc(100% - 10px);
+            overflow: auto;
+            padding: 5px;
+        }
+
+        .job {
+            min-width: 100px;
+            border: 1px solid var(--bg-1);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-right: 5px;
+        }
+
+        .statusBar {
+            padding: 5px;
+            background: var(--bg-2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            cursor: default;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.6;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(90deg);
+            }
+
+            50% {
+                transform: rotate(180deg);
+            }
+
+            75% {
+                transform: rotate(270deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes shrink {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+<script>
+    const jobStatus = {
+        queued: 'queued',
+        running: 'running',
+        completed: 'completed',
+        failed: 'failed',
+        cancelled: 'cancelled',
+    }
+
+    const app = Vue.createApp({
+        template: `
+        <div style="margin-bottom: 7px; display: flex; gap: 7px;">
+            <icon-toggle-button v-model="showFinishedJobs" label="Finished jobs" />
+            <icon-toggle-button v-model="showDisposedQueues" label="Disposed queues" />
+        </div>
+        <div>
+            <template v-for="queue in queues">
+                <div class="queue" v-if="shouldShowQueue(queue)" :style="queue.isDisposed ? { opacity: 0.7 } : { opacity: 1 }">
+                    <div style="grid-row: 1" class="statusBar">
+                        <div>
+                            <span style="font-weight: bold; margin-right: 5px;">{{queue.name}}</span>
+                            <span style="margin-right: 5px;">{{queue.type}}</span>
+                        </div>
+                        <div v-if="queue.isDisposed" style="display: flex; align-items: center; line-height: 16px;">
+                            <span class="material-symbols-outlined" style="font-size: 16px;">delete_forever</span>
+                            Disposed
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <template v-for="status of statuses">
+                                <status-icon-component :status="status" fontSize="16px" />
+                                <span style="margin-left: 2px; margin-right: 10px;">{{statusJobsCount(queue, status)}}</span>
+                            </template>
+                        </div>
+                    </div>
+
+                    <div style="grid-row: 2" class="jobs">
+                        <template v-for="job in queue.jobs">
+                            <div class="job" v-if="shouldShowJob(job)" :style="getJobStyle(job)">
+                                <status-icon-component :status="job.status" fontSize="24px" animated="true" />
+                                <span style="font-size: 10px;">
+                                    {{job.name}}
+                                </span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </div>
+        `,
+        data() {
+            return {
+                queues: [],
+                showFinishedJobs: false,
+                showDisposedQueues: true,
+                currentTime: Date.now()
+            }
+        },
+        mounted() {
+            setInterval(() => {
+                this.currentTime = Date.now();
+            }, 100);
+        },
+        methods: {
+            onQueueCreated(queueId, queueType, queueName) {
+                this.queues.splice(0, 0, {
+                    id: queueId,
+                    type: queueType,
+                    name: queueName,
+                    isDisposed: false,
+                    jobs: []
+                });
+            },
+            onQueueDisposed(queueId) {
+                const queueIndex = this.queues.findIndex(queue => queue.id === queueId);
+                const queue = this.queues[queueIndex];
+                queue.isDisposed = true;
+
+                // Move to first position after non-disposed queues
+                this.queues.splice(queueIndex, 1);
+                const firstDisposedIndex = this.queues.findIndex(q => q.isDisposed);
+                if (firstDisposedIndex === -1) {
+                    this.queues.push(queue);
+                } else {
+                    this.queues.splice(firstDisposedIndex, 0, queue);
+                }
+            },
+            onJobQueued(queueId, jobId, jobName) {
+                const queue = this.queues.find(queue => queue.id === queueId);
+                queue.jobs.push({
+                    id: jobId,
+                    name: jobName,
+                    status: 'queued',
+                    enqueueTime: Date.now(),
+                    updateTime: Date.now()
+                });
+            },
+            onJobStarted(jobId) {
+                this.changeJobStatus(jobId, jobStatus.running);
+            },
+            onJobCompleted(jobId) {
+                this.changeJobStatus(jobId, jobStatus.completed);
+            },
+            onJobCancelled(jobId) {
+                this.changeJobStatus(jobId, jobStatus.cancelled);
+            },
+            onJobFailed(jobId) {
+                this.changeJobStatus(jobId, jobStatus.failed);
+            },
+
+            changeJobStatus(jobId, status) {
+                for (let queue of this.queues) {
+                    const job = queue.jobs.find(job => job.id === jobId);
+                    if (job) {
+                        job.status = status;
+                        job.updateTime = Date.now();
+                        return;
+                    }
+                }
+            },
+
+            isJobFinished(job) {
+                return job && [jobStatus.completed, jobStatus.cancelled, jobStatus.failed].includes(job.status);
+            },
+
+            finishedJobsCount(queue) {
+                return queue.jobs.filter(job => this.isJobFinished(job)).length;
+            },
+
+            shouldShowJob(job) {
+                if (this.showFinishedJobs) {
+                    return true;
+                }
+
+                if (this.isJobFinished(job)) {
+                    return this.currentTime - job.updateTime < 2500;
+                }
+
+                return true;
+            },
+
+            shouldShowQueue(queue) {
+                if (queue.isDisposed) {
+                    return this.showDisposedQueues;
+                }
+
+                return true;
+            },
+
+            statusJobsCount(queue, status) {
+                return queue.jobs.filter(job => job.status === status).length;
+            },
+
+            getJobStyle(job) {
+                if (!this.isJobFinished(job) || this.showFinishedJobs) {
+                    return {};
+                }
+
+                const timeSinceUpdate = this.currentTime - job.updateTime;
+                if (timeSinceUpdate > 2000 && timeSinceUpdate < 2500) {
+                    return {
+                        animation: 'shrink 0.5s ease-in-out forwards'
+                    };
+                }
+            }
+        },
+        computed: {
+            statuses() {
+                return Object.keys(jobStatus);
+            }
+        }
+    });
+
+    app.component('icon-toggle-button', {
+        props: ['label', 'modelValue'],
+        emits: ['update:modelValue'],
+        template: `
+        <span @click="buttonClick" class="iconButton" :style="modelValue ? { opacity: 1 } : { opacity: 0.6 }">
+            <span class="material-symbols-outlined" style="font-size: 16px;">{{icon}}</span>
+            <span>{{label}}</span>
+        </span>
+        `,
+        methods: {
+            buttonClick() {
+                this.$emit('update:modelValue', !this.modelValue);
+            }
+        },
+        computed: {
+            icon() {
+                return this.modelValue ? 'visibility' : 'visibility_off';
+            }
+        }
+    });
+
+    app.component('status-icon-component', {
+        props: [ 'status', 'fontSize', 'animated' ],
+        template: `
+        <span class="material-symbols-outlined" :style="style" :title="tooltip">{{icon}}</span>
+        `,
+        computed: {
+            tooltip() {
+                return this.status[0].toUpperCase() + this.status.substr(1);
+            },
+            icon() {
+                switch(this.status) {
+                    case jobStatus.queued:
+                        return 'pending';
+                    case jobStatus.running:
+                        return 'progress_activity';
+                    case jobStatus.completed:
+                        return 'check_circle';
+                    case jobStatus.failed:
+                        return 'error';
+                    case jobStatus.cancelled:
+                        return 'cancel';
+                }
+            },
+            color() {
+                switch(this.status) {
+                    case jobStatus.queued:
+                        return 'var(--grey)';
+                    case jobStatus.running:
+                        return 'var(--blue)';
+                    case jobStatus.completed:
+                        return 'var(--green)';
+                    case jobStatus.failed:
+                        return 'var(--red)';
+                    case jobStatus.cancelled:
+                        return 'var(--purple)';
+                }
+            },
+            animation() {
+                if (!this.animated) {
+                    return '';
+                }
+
+                switch(this.status) {
+                    case jobStatus.queued:
+                        return 'pulse 2s ease-in-out infinite';
+                    case jobStatus.running:
+                        return 'rotate 1.5s ease-in-out infinite';
+                    default:
+                        return '';
+                }
+            },
+            style() {
+                return {
+                    color: this.color,
+                    fontSize: this.fontSize ?? 'inherit',
+                    animation: this.animation
+                }
+            }
+        }
+    });
+
+
+    app.mount('#app');
+
+    window.app = app._instance;
+</script>

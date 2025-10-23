@@ -1,0 +1,70 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>perllinux - Perl version 5 on Linux systems</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr><td class="_podblock_" style="background-color: #cccccc; color: #000" valign="middle">
+<big><strong><span class="_podblock_">&nbsp;perllinux - Perl version 5 on Linux systems</span></strong></big>
+</td></tr>
+</table>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a>
+    <ul>
+      <li><a href="#Deploying-Perl-on-Linux">Deploying Perl on Linux</a></li>
+      <li><a href="#Experimental-Support-for-Sun-Studio-Compilers-for-Linux-OS">Experimental Support for Sun Studio Compilers for Linux OS</a></li>
+    </ul>
+  </li>
+  <li><a href="#AUTHOR">AUTHOR</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>perllinux - Perl version 5 on Linux systems</p>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>This document describes various features of Linux that will affect how Perl version 5 (hereafter just Perl) is compiled and/or runs.</p>
+
+<h2 id="Deploying-Perl-on-Linux">Deploying Perl on Linux</h2>
+
+<p>Normally one can install <i>/usr/bin/perl</i> on Linux using your distribution&#39;s package manager (e.g: <code>sudo apt-get install perl</code>, or <code>sudo dnf install perl</code>). Note that sometimes one needs to install some extra system packages in order to be able to use CPAN frontends, and that messing with the system&#39;s perl is not always recommended. One can use <a href="https://perlbrew.pl/">perlbrew</a> to avoid such issues.</p>
+
+<p>Otherwise, perl should build fine on Linux using the mainstream compilers GCC and clang, while following the usual instructions.</p>
+
+<h2 id="Experimental-Support-for-Sun-Studio-Compilers-for-Linux-OS">Experimental Support for Sun Studio Compilers for Linux OS</h2>
+
+<p>Sun Microsystems has released a port of their Sun Studio compilers for Linux. As of May 2019, the last stable release took place on 2017, and one can buy support contracts for them.</p>
+
+<p>There are some special instructions for building Perl with Sun Studio on Linux. Following the normal <code>Configure</code>, you have to run make as follows:</p>
+
+<pre><code>    LDLOADLIBS=-lc make</code></pre>
+
+<p><code>LDLOADLIBS</code> is an environment variable used by the linker to link <code>/ext</code> modules to glibc. Currently, that environment variable is not getting populated by a combination of <code>Config</code> entries and <code>ExtUtil::MakeMaker</code>. While there may be a bug somewhere in Perl&#39;s configuration or <code>ExtUtil::MakeMaker</code> causing the problem, the most likely cause is an incomplete understanding of Sun Studio by this author. Further investigation is needed to get this working better.</p>
+
+<h1 id="AUTHOR">AUTHOR</h1>
+
+<p>Steve Peters &lt;steve@fisharerojo.org&gt;</p>
+
+<p>Please report any errors, updates, or suggestions to <a href="https://github.com/Perl/perl5/issues">https://github.com/Perl/perl5/issues</a>.</p>
+
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr><td class="_podblock_" style="background-color: #cccccc; color: #000" valign="middle">
+<big><strong><span class="_podblock_">&nbsp;perllinux - Perl version 5 on Linux systems</span></strong></big>
+</td></tr>
+</table>
+
+</body>
+
+</html>
+
+
